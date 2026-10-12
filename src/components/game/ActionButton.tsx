@@ -18,6 +18,8 @@ type Props = {
   icon?: keyof typeof icons;
   /** Extra attributes for links, e.g. download / target. */
   download?: boolean | string;
+  /** Open in a new tab (outbound links such as repos and demos). */
+  external?: boolean;
   /** Accessible name when the visible label is ambiguous ("Select" → "Select Project X"). */
   ariaLabel?: string;
   className?: string;
@@ -43,6 +45,7 @@ export default function ActionButton({
   size = 'default',
   icon,
   download,
+  external,
   ariaLabel,
   className,
   onClick,
@@ -67,7 +70,12 @@ export default function ActionButton({
       onClick={onClick}
     >
       {href ? (
-        <a href={href} download={download} aria-label={ariaLabel}>
+        <a
+          href={href}
+          download={download}
+          aria-label={ariaLabel}
+          {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
+        >
           {content}
         </a>
       ) : (

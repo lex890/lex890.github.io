@@ -5,6 +5,7 @@
  */
 import Chip from '@/components/game/Chip.astro';
 import DateTag from '@/components/game/DateTag.astro';
+import DiamondList from '@/components/game/DiamondList.astro';
 import StatPill from '@/components/game/StatPill.astro';
 import type { Experience } from '@/lib/content';
 import { formatRange } from '@/lib/format';
@@ -28,9 +29,7 @@ const { job, index } = Astro.props;
   </div>
 
   <div class={s.body}>
-    <ul class={s.highlights}>
-      {job.highlights.map((h) => <li>{h}</li>)}
-    </ul>
+    <DiamondList items={job.highlights} />
     <ul class={s.tech} aria-label="Tech used">
       {
         job.tech.map((t) => (

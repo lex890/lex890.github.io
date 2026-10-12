@@ -1,0 +1,53 @@
+// ProjectFilter — category pills (active black, others white) + result count
+//
+// shadcn's ToggleGroup ships Tailwind classes; these module rules are
+// unlayered, so they override them without !important.
+@use 'mixins' as *;
+
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.group {
+  flex-wrap: wrap;
+  gap: 8px;
+  width: auto;
+}
+
+.pill {
+  height: var(--tap);
+  min-width: 0;
+  padding: 0 20px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--card);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: none;
+
+  &:hover {
+    background: var(--card);
+    color: var(--ink);
+  }
+
+  &[data-state='on'] {
+    background: var(--ink);
+    color: #fff;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    box-shadow: none;
+  }
+}
+
+.count {
+  color: var(--muted);
+  font-size: 15px;
+}

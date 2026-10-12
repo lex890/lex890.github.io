@@ -205,6 +205,24 @@ const ui = defineCollection({
       certificationsTitle: z.string(),
     }),
     contact: z.strictObject({ label: z.string(), title: z.string(), text: z.string() }),
+    projectsPage: z.strictObject({
+      title: z.string(),
+      label: z.string(),
+      description: z.string(),
+      filterLabel: z.string(),
+      allLabel: z.string(),
+      /** "{shown}" and "{total}" are replaced with numbers. */
+      countText: z.string(),
+    }),
+    projectDetail: z.strictObject({
+      highlightsTitle: z.string(),
+      techTitle: z.string(),
+      linksTitle: z.string(),
+      links: z.strictObject({ live: z.string(), repo: z.string(), caseStudy: z.string() }),
+      prevLabel: z.string(),
+      nextLabel: z.string(),
+      backLabel: z.string(),
+    }),
     footer: z.strictObject({ note: z.string() }),
   }),
 });

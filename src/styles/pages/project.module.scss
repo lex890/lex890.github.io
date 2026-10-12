@@ -1,0 +1,200 @@
+// /projects/[slug] — project detail page
+@use 'mixins' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding-block: var(--space-5) var(--space-8);
+}
+
+.back {
+  align-self: flex-start;
+  min-height: var(--tap);
+  padding-inline: 18px;
+  font-size: 15px;
+}
+
+// ---- Hero -------------------------------------------------------------------
+
+.hero {
+  display: grid;
+  gap: var(--space-6);
+
+  @include bp(lg) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: var(--space-7);
+  }
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+// NameTag-style pill: client | role.
+.byline {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  max-width: 100%;
+  padding: 10px 20px;
+  border-radius: var(--r-card-sm);
+  background: var(--ink);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.rule {
+  align-self: stretch;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.role {
+  color: var(--on-ink-muted);
+}
+
+.title {
+  font-size: clamp(38px, 5.4vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.summary {
+  max-width: 52ch;
+}
+
+.techBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.frame {
+  width: 100%;
+}
+
+// ---- Body -------------------------------------------------------------------
+
+.body {
+  display: grid;
+  gap: var(--space-5);
+
+  @include bp(lg) {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    align-items: start;
+
+    // Highlights take the full width when there are no links yet.
+    > :only-child {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-6) var(--space-5);
+  border-radius: var(--r-card);
+  background: var(--card);
+
+  @include bp(md) {
+    padding: var(--space-6);
+  }
+}
+
+.cardTitle {
+  font-size: clamp(23px, 2.4vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.linkList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+// ---- Previous / next ----------------------------------------------------------
+
+.pager {
+  display: grid;
+  gap: var(--space-5);
+  margin-top: var(--space-4);
+
+  @include bp(md) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+// Text on one side, round arrow badge on the other ("Previous" mirrors it).
+.neighbour {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--r-card);
+  background: var(--card);
+
+  > :not(.arrow) {
+    grid-column: 1;
+  }
+}
+
+.neighbourTitle {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+.arrow {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--lime);
+}
+
+.prev {
+  grid-template-columns: auto minmax(0, 1fr);
+
+  > :not(.arrow) {
+    grid-column: 2;
+  }
+
+  .arrow {
+    grid-column: 1;
+  }
+}
+
+// Side by side from 768px: mirror the "Next" card's text toward its arrow.
+.next {
+  @include bp(md) {
+    text-align: right;
+  }
+}

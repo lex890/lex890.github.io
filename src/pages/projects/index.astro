@@ -1,0 +1,41 @@
+---
+/**
+ * /projects — every project in the ProjectCard grid, with a category filter.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProjectCard from '@/components/cards/ProjectCard.astro';
+import ProjectFilter from '@/components/cards/ProjectFilter';
+import SectionHeader from '@/components/game/SectionHeader.astro';
+import { getProjects, getSite, getUi } from '@/lib/content';
+import s from '@/styles/pages/projects.module.scss';
+
+const [site, ui, projects] = await Promise.all([getSite(), getUi(), getProjects()]);
+const copy = ui.projectsPage;
+const categories = [...new Set(projects.map((p) => p.category))];
+---
+
+<BaseLayout title={`${copy.title} — ${site.name}`} description={copy.description}>
+  <section class:list={['wrap', s.page]} aria-labelledby="projects-title">
+    <SectionHeader num={ui.sections.projects.num} label={copy.label} title={copy.title} id="projects-title" level={1} />
+
+    <ProjectFilter
+      client:visible
+      gridId="project-grid"
+      categories={categories}
+      label={copy.filterLabel}
+      allLabel={copy.allLabel}
+      countText={copy.countText}
+      total={projects.length}
+    />
+
+    <ul id="project-grid" class={s.grid}>
+      {
+        projects.map((project) => (
+          <li data-category={project.category}>
+            <ProjectCard project={project} selectLabel={ui.projects.selectLabel} level={2} />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

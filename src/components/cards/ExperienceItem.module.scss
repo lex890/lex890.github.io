@@ -38,30 +38,6 @@
   gap: var(--space-5);
 }
 
-.highlights {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  color: var(--ink-2);
-  font-size: 17px;
-
-  li {
-    display: flex;
-    gap: 14px;
-
-    // Lime diamond with a 2px ink outline, aligned to the first line.
-    &::before {
-      content: '';
-      @include diamond(11px, var(--lime));
-      margin-top: 0.5em;
-      outline: 2px solid var(--ink);
-    }
-  }
-}
-
 .tech {
   display: flex;
   flex-wrap: wrap;

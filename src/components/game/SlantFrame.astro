@@ -1,0 +1,38 @@
+---
+/**
+ * SlantFrame — image in a 7% parallelogram with a 2px magenta edge, plus an
+ * optional yellow tag in the top-right corner. Falls back to the project
+ * placeholder when `src` is null.
+ *   <SlantFrame src={project.image} alt={project.imageAlt} tag={project.category} />
+ *   <SlantFrame ... height="clamp(240px, 40vw, 440px)" eager />
+ */
+import s from './SlantFrame.module.scss';
+
+interface Props {
+  src: string | null;
+  alt: string;
+  tag?: string;
+  /** Any CSS length; default 200px (project cards). */
+  height?: string;
+  /** Load immediately (above-the-fold images). */
+  eager?: boolean;
+  class?: string;
+}
+
+const { src, alt, tag, height = '200px', eager = false, class: className } = Astro.props;
+const image = src ?? '/images/projects/placeholder-project.svg';
+---
+
+<div class:list={[s.frame, className]} style={`--frame-h: ${height}`}>
+  <img
+    class={s.image}
+    src={image}
+    alt={alt}
+    width="1280"
+    height="720"
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : undefined}
+    decoding="async"
+  />
+  {tag && <span class={s.tag}>{tag}</span>}
+</div>

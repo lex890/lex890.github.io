@@ -1,0 +1,26 @@
+// DiamondList — lime diamond bullets with a 2px ink outline
+@use 'mixins' as *;
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ink-2);
+  font-size: 17px;
+
+  li {
+    display: flex;
+    gap: 14px;
+
+    // Aligned to the first line of text.
+    &::before {
+      content: '';
+      @include diamond(11px, var(--lime));
+      margin-top: 0.5em;
+      outline: 2px solid var(--ink);
+    }
+  }
+}

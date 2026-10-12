@@ -1,0 +1,18 @@
+---
+/**
+ * DiamondList — bullet list with lime diamonds outlined in ink.
+ *   <DiamondList items={job.highlights} />
+ */
+import s from './DiamondList.module.scss';
+
+interface Props {
+  items: string[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+---
+
+<ul class:list={[s.list, className]}>
+  {items.map((item) => <li>{item}</li>)}
+</ul>

@@ -1,10 +1,11 @@
 ---
 /**
- * ProjectCard — slanted image frame with a category tag, client, title,
+ * ProjectCard — SlantFrame image with a category tag, client, title,
  * summary, tech tags, role and a "Select" button to the detail page.
  * Lifts and gets the holo ring on hover.
  */
 import ActionButton from '@/components/game/ActionButton';
+import SlantFrame from '@/components/game/SlantFrame.astro';
 import TechTag from '@/components/game/TechTag.astro';
 import type { Project } from '@/lib/content';
 import s from './ProjectCard.module.scss';
@@ -18,15 +19,11 @@ interface Props {
 
 const { project, selectLabel, level = 3 } = Astro.props;
 const Heading = `h${level}` as 'h2' | 'h3';
-const image = project.image ?? '/images/projects/placeholder-project.svg';
 const href = `/projects/${project.slug}`;
 ---
 
 <article class:list={[s.card, 'hr', 'lift']}>
-  <div class={s.frame}>
-    <img class={s.image} src={image} alt={project.imageAlt} width="1280" height="720" loading="lazy" decoding="async" />
-    <span class={s.category}>{project.category}</span>
-  </div>
+  <SlantFrame src={project.image} alt={project.imageAlt} tag={project.category} />
 
   <div class={s.body}>
     <p class={s.client}>{project.client}</p>

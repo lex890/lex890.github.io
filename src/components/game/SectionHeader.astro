@@ -13,13 +13,13 @@ interface Props {
   label: string;
   title: string;
   id?: string;
-  /** Heading level, default h2. */
-  level?: 2 | 3;
+  /** Heading level, default h2 (h1 on page tops like /projects). */
+  level?: 1 | 2 | 3;
   class?: string;
 }
 
 const { num, label, title, id, level = 2, class: className } = Astro.props;
-const Heading = `h${level}` as 'h2' | 'h3';
+const Heading = `h${level}` as 'h1' | 'h2' | 'h3';
 ---
 
 <div class:list={[s.header, className]}>

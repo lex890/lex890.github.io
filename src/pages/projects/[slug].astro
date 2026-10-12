@@ -1,0 +1,133 @@
+---
+/**
+ * /projects/[slug] — one page per project in src/data/projects.json.
+ * Hero (slanted image, category tag, title, client · role pill, tech tags),
+ * highlights, links (each hidden while null) and previous / next cards.
+ */
+import type { GetStaticPaths } from 'astro';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ActionButton from '@/components/game/ActionButton';
+import DiamondList from '@/components/game/DiamondList.astro';
+import Pill from '@/components/game/Pill.astro';
+import SlantFrame from '@/components/game/SlantFrame.astro';
+import TechTag from '@/components/game/TechTag.astro';
+import { getProjects, getSite, getUi, type Project } from '@/lib/content';
+import s from '@/styles/pages/project.module.scss';
+
+export const getStaticPaths = (async () => {
+  const projects = await getProjects();
+  // Previous / next wrap around, so every page has both.
+  return projects.map((project, i) => ({
+    params: { slug: project.slug },
+    props: {
+      project,
+      prev: projects[(i - 1 + projects.length) % projects.length],
+      next: projects[(i + 1) % projects.length],
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  project: Project;
+  prev: Project;
+  next: Project;
+}
+
+const { project, prev, next } = Astro.props;
+const [site, ui] = await Promise.all([getSite(), getUi()]);
+const copy = ui.projectDetail;
+
+const linkOrder = ['live', 'repo', 'caseStudy'] as const;
+const links = linkOrder
+  .filter((key) => project.links[key] !== null)
+  .map((key, i) => ({ key, href: project.links[key]!, label: copy.links[key], primary: i === 0 }));
+
+const neighbours = [
+  { label: copy.prevLabel, project: prev, dir: 'prev' as const },
+  { label: copy.nextLabel, project: next, dir: 'next' as const },
+].filter((n) => n.project.slug !== project.slug); // single-project edge case
+---
+
+<BaseLayout title={`${project.title} — ${site.name}`} description={project.summary}>
+  <article class:list={['wrap', s.page]}>
+    <Pill tone="white" href="/projects" class={s.back}>
+      <ArrowLeft size={16} strokeWidth={2.5} aria-hidden="true" />
+      {copy.backLabel}
+    </Pill>
+
+    <header class={s.hero}>
+      <div class={s.intro}>
+        <p class:list={[s.byline, 'hf', 'hf-dark']}>
+          <span>{project.client}</span>
+          <span class:list={[s.rule, 'rule']} aria-hidden="true"></span>
+          <span class={s.role}>{project.role}</span>
+        </p>
+        <h1 class={s.title}>{project.title}</h1>
+        <p class:list={['t-body-lg', s.summary]}>{project.summary}</p>
+        <div class={s.techBlock}>
+          <h2 class="t-label">{copy.techTitle}</h2>
+          <ul class={s.tech}>
+            {
+              project.tech.map((t) => (
+                <li>
+                  <TechTag>{t}</TechTag>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+      <SlantFrame
+        src={project.image}
+        alt={project.imageAlt}
+        tag={project.category}
+        height="clamp(220px, 32vw, 400px)"
+        eager
+        class={s.frame}
+      />
+    </header>
+
+    <div class={s.body}>
+      <section class:list={[s.card, 'hr']} aria-labelledby="highlights-title">
+        <h2 id="highlights-title" class={s.cardTitle}>{copy.highlightsTitle}</h2>
+        <DiamondList items={project.highlights} />
+      </section>
+
+      {
+        links.length > 0 && (
+          <section class:list={[s.card, s.links, 'hr']} aria-labelledby="links-title">
+            <h2 id="links-title" class={s.cardTitle}>
+              {copy.linksTitle}
+            </h2>
+            <div class={s.linkList}>
+              {links.map((l) => (
+                <ActionButton
+                  label={l.label}
+                  href={l.href}
+                  tone={l.primary ? 'primary' : 'secondary'}
+                  icon={l.primary ? 'arrow-right' : undefined}
+                  external
+                />
+              ))}
+            </div>
+          </section>
+        )
+      }
+    </div>
+
+    <nav class={s.pager} aria-label="More projects">
+      {
+        neighbours.map((n) => (
+          <a href={`/projects/${n.project.slug}`} class:list={[s.neighbour, s[n.dir], 'hr', 'lift']}>
+            <span class="t-label">{n.label}</span>
+            <span class={s.neighbourTitle}>{n.project.title}</span>
+            <span class={s.arrow} aria-hidden="true">
+              {n.dir === 'prev' ? <ArrowLeft size={20} strokeWidth={2.5} /> : <ArrowRight size={20} strokeWidth={2.5} />}
+            </span>
+          </a>
+        ))
+      }
+    </nav>
+  </article>
+</BaseLayout>

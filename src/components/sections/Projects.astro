@@ -1,0 +1,36 @@
+---
+/**
+ * Projects (#projects, 04 "Select a project") — featured projects grid with
+ * an "All projects" pill linking to /projects.
+ */
+import ProjectCard from '@/components/cards/ProjectCard.astro';
+import Pill from '@/components/game/Pill.astro';
+import SectionHeader from '@/components/game/SectionHeader.astro';
+import type { Project, Ui } from '@/lib/content';
+import s from './Projects.module.scss';
+
+interface Props {
+  ui: Ui;
+  projects: Project[];
+}
+
+const { ui, projects } = Astro.props;
+const header = ui.sections.projects;
+const featured = projects.filter((p) => p.featured);
+---
+
+<section id="projects" class:list={['wrap', 'section']} aria-labelledby="projects-title">
+  <SectionHeader num={header.num} label={header.label} title={header.title} id="projects-title">
+    <Pill slot="action" href="/projects" class={s.all}>{ui.projects.allLabel}</Pill>
+  </SectionHeader>
+
+  <ul class={s.grid}>
+    {
+      featured.map((project) => (
+        <li>
+          <ProjectCard project={project} selectLabel={ui.projects.selectLabel} />
+        </li>
+      ))
+    }
+  </ul>
+</section>

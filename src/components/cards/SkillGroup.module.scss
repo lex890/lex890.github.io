@@ -1,0 +1,43 @@
+// SkillGroup — white card (r26), count badge + label, chips
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  height: 100%;
+  padding: var(--space-5);
+  border-radius: var(--r-card-sm);
+  background: var(--card);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 44px;
+  height: 36px;
+  padding-inline: 10px;
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: var(--lime);
+  font-size: 16px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

@@ -8,6 +8,7 @@ import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 type ListCollection = 'experience' | 'projects' | 'skills' | 'education' | 'certifications';
 
 export type Site = CollectionEntry<'site'>['data'];
+export type Ui = CollectionEntry<'ui'>['data'];
 export type Experience = CollectionEntry<'experience'>['data'];
 export type Project = CollectionEntry<'projects'>['data'];
 export type SkillGroup = CollectionEntry<'skills'>['data'];
@@ -26,11 +27,20 @@ export async function getSite(): Promise<Site> {
   return entry.data;
 }
 
+export async function getUi(): Promise<Ui> {
+  const entry = await getEntry('ui', 'ui');
+  if (!entry) throw new Error('src/data/ui.json is missing');
+  return entry.data;
+}
+
 export const getExperience = () => list('experience');
 export const getProjects = () => list('projects');
 export const getSkills = () => list('skills');
 export const getEducation = () => list('education');
 export const getCertifications = () => list('certifications');
+
+export type Stats = Awaited<ReturnType<typeof getStats>>;
+export type StatKey = keyof Stats;
 
 /** Counts shown in the hero StatPills and the PlayerCard (computed, never typed in). */
 export async function getStats() {

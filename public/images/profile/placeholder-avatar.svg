@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="340" height="480" viewBox="0 0 340 480" role="img" aria-label="Photo placeholder">
+  <defs>
+    <pattern id="stripes" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="8" height="16" fill="#ffffff" fill-opacity="0.22"/>
+    </pattern>
+  </defs>
+  <rect width="340" height="480" fill="#D9DDE5"/>
+  <rect width="340" height="480" fill="url(#stripes)"/>
+  <g fill="none" stroke="#5A5F6B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="170" cy="180" r="52"/>
+    <path d="M78 352c8-58 46-94 92-94s84 36 92 94"/>
+  </g>
+  <text x="170" y="410" text-anchor="middle" font-family="Outfit, system-ui, sans-serif" font-size="20" font-weight="600" fill="#3A3F4A">Your photo — cut-out PNG</text>
+</svg>

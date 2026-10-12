@@ -1,0 +1,185 @@
+// Hero — two columns (copy · decorative visual), stacked below 960px (§5 /, item 1)
+//
+// The visual is a fixed-size stage (600px tall on desktop, shorter on phones);
+// every layer is absolutely positioned INSIDE it, so decorations can never
+// overlap the copy column.
+@use 'mixins' as *;
+
+.hero {
+  display: grid;
+  gap: var(--space-7);
+  padding-block: var(--space-6) var(--space-7);
+
+  @include bp(lg) {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-6);
+    padding-block: var(--space-7) var(--space-8);
+  }
+}
+
+// ---- Copy column ------------------------------------------------------------
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.name {
+  margin-top: var(--space-5);
+}
+
+.role {
+  margin-top: var(--space-5);
+  font-size: clamp(28px, 3.6vw, 44px);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.tagline {
+  max-width: 34ch;
+  margin-top: var(--space-5);
+  font-size: clamp(18px, 1.7vw, 20px);
+}
+
+.stats {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+
+  @include bp(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.stat {
+  width: 100%;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: var(--space-6);
+}
+
+// ---- Visual stage -------------------------------------------------------------
+
+.visual {
+  position: relative;
+  height: 480px;
+  width: 100%;
+  max-width: 600px;
+  justify-self: center;
+
+  @include bp(sm) {
+    height: 600px;
+  }
+}
+
+// Giant faded "01", top-right.
+.watermark {
+  position: absolute;
+  top: -0.06em;
+  right: 0;
+  color: var(--watermark);
+  font-size: clamp(200px, 50vw, 340px);
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  user-select: none;
+}
+
+// Lime bar near the bottom, rotated -8deg.
+.bar {
+  position: absolute;
+  bottom: 56px;
+  left: 2%;
+  width: 72%;
+  height: 72px;
+  border-radius: 20px;
+  background: var(--lime);
+  transform: rotate(-8deg);
+
+  @include bp(sm) {
+    height: 90px;
+  }
+}
+
+// Yellow hexagon-arrow behind the photo.
+.shape {
+  position: absolute;
+  top: 16%;
+  left: 12%;
+  width: 82%;
+  height: 66%;
+  background: var(--yellow);
+  clip-path: polygon(28% 0, 100% 0, 74% 50%, 100% 100%, 28% 100%, 0 50%);
+}
+
+// Profile photo: 340x480 with 40px cut corners (scaled down on phones).
+.photo {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  width: auto;
+  height: calc(100% - 48px);
+  max-height: 480px;
+  aspect-ratio: 340 / 480;
+  object-fit: cover;
+  transform: translateX(-50%);
+  @include cut-corner(40px);
+
+  // Phones: smaller, so the yellow shape and Class card both stay visible.
+  @include bp-down(sm) {
+    bottom: 44px;
+    left: 58%;
+    height: 72%;
+  }
+}
+
+// White "Class" card, top-left.
+.classCard {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  z-index: 1;
+  width: min(220px, 46%);
+
+  > * {
+    box-shadow: 0 10px 30px rgba(17, 18, 20, 0.08);
+  }
+
+  @include bp-down(sm) {
+    > * {
+      padding: 14px 16px;
+    }
+
+    // InfoTile title / text, a size down.
+    span:nth-child(2) {
+      font-size: 18px;
+    }
+    span:nth-child(3) {
+      font-size: 13px;
+    }
+  }
+}
+
+// Black NameTag, bottom-right.
+.nameTag {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+
+  @include bp-down(sm) {
+    > * {
+      font-size: 20px;
+    }
+  }
+}

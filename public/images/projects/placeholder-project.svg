@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Project screenshot placeholder">
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="#E1E4EA" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <rect width="1280" height="720" fill="#F2F3F7"/>
+  <rect width="1280" height="720" fill="url(#grid)"/>
+  <g fill="none" stroke="#5A5F6B" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(560 250)">
+    <rect x="0" y="0" width="160" height="120" rx="16"/>
+    <circle cx="48" cy="40" r="14"/>
+    <path d="M10 112l50-50 36 36 24-24 36 36"/>
+  </g>
+  <text x="640" y="450" text-anchor="middle" font-family="Outfit, system-ui, sans-serif" font-size="40" font-weight="600" fill="#3A3F4A">Project screenshot</text>
+</svg>

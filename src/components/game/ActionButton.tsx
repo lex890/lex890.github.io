@@ -18,6 +18,8 @@ type Props = {
   icon?: keyof typeof icons;
   /** Extra attributes for links, e.g. download / target. */
   download?: boolean | string;
+  /** Accessible name when the visible label is ambiguous ("Select" → "Select Project X"). */
+  ariaLabel?: string;
   className?: string;
   onClick?: () => void;
 };
@@ -41,6 +43,7 @@ export default function ActionButton({
   size = 'default',
   icon,
   download,
+  ariaLabel,
   className,
   onClick,
 }: Props) {
@@ -60,10 +63,11 @@ export default function ActionButton({
       data-tone={ink ? 'ink' : undefined}
       className={[fx, className].filter(Boolean).join(' ')}
       asChild={Boolean(href)}
+      aria-label={href ? undefined : ariaLabel}
       onClick={onClick}
     >
       {href ? (
-        <a href={href} download={download}>
+        <a href={href} download={download} aria-label={ariaLabel}>
           {content}
         </a>
       ) : (

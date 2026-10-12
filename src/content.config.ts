@@ -39,13 +39,13 @@ type Raw = Record<string, unknown>;
 const listParser = (idKey: string) => (text: string) =>
   (JSON.parse(text) as Raw[]).map((item, i) => ({ ...item, id: item[idKey], order: i }));
 
-/** Single JSON object → one entry with id "site". */
-const singleParser = (text: string) => [{ id: 'site', ...(JSON.parse(text) as Raw) }];
+/** Single JSON object → one entry with the given id. */
+const singleParser = (id: string) => (text: string) => [{ id, ...(JSON.parse(text) as Raw) }];
 
 // ---- Collections -------------------------------------------------------------
 
 const site = defineCollection({
-  loader: file('src/data/site.json', { parser: singleParser }),
+  loader: file('src/data/site.json', { parser: singleParser('site') }),
   schema: z.strictObject({
     id: z.literal('site'),
     name: z.string().min(1),
@@ -150,4 +150,63 @@ const certifications = defineCollection({
   }),
 });
 
-export const collections = { site, experience, projects, skills, education, certifications };
+// Interface copy: section titles, button labels, hero/player-card text.
+// Everything on screen that isn't CV data still comes from src/data/.
+const statKey = z.enum(['internships', 'projects', 'certifications', 'skills', 'languages']);
+const labelled = z.strictObject({ label: z.string(), title: z.string() });
+const sectionCopy = z.strictObject({ num: z.string().regex(/^\d{2}$/), label: z.string(), title: z.string() });
+const link = z.strictObject({ label: z.string(), href: z.string() });
+
+const ui = defineCollection({
+  loader: file('src/data/ui.json', { parser: singleParser('ui') }),
+  schema: z.strictObject({
+    id: z.literal('ui'),
+    header: z.strictObject({ cvLabel: z.string(), menuLabel: z.string() }),
+    hero: z.strictObject({
+      badge: z.string(),
+      photoAlt: z.string().min(1),
+      classCard: labelled.extend({ text: z.string() }),
+      stats: z.array(z.strictObject({ stat: statKey, label: z.string(), sub: z.string() })).length(4),
+      primaryCta: link,
+      secondaryCta: link,
+    }),
+    sections: z.strictObject({
+      about: sectionCopy,
+      experience: sectionCopy,
+      projects: sectionCopy,
+      skills: sectionCopy,
+      credentials: sectionCopy,
+    }),
+    player: z.strictObject({
+      section: z.string(),
+      class: z.string(),
+      level: z.strictObject({ label: z.string(), value: z.number().int(), max: z.number().int().positive() }),
+      tabs: z.strictObject({ stats: z.string(), ability: z.string() }),
+      // Each row shows either a computed count (`stat`) or fixed text (`value`).
+      stats: z.array(
+        z
+          .strictObject({ label: z.string(), stat: statKey.nullable(), value: z.string().nullable() })
+          .refine((r) => (r.stat === null) !== (r.value === null), 'Set exactly one of "stat" or "value"'),
+      ),
+      abilities: z.array(z.strictObject({ label: z.string(), detail: z.string() })),
+      loadoutLabel: z.string(),
+    }),
+    about: z.strictObject({
+      summaryLabel: z.string(),
+      base: labelled,
+      academy: labelled.extend({ text: z.string() }),
+      status: labelled,
+    }),
+    projects: z.strictObject({ allLabel: z.string(), selectLabel: z.string() }),
+    credentials: z.strictObject({
+      educationLabel: z.string(),
+      progressLabel: z.string(),
+      watermark: z.string(),
+      certificationsTitle: z.string(),
+    }),
+    contact: z.strictObject({ label: z.string(), title: z.string(), text: z.string() }),
+    footer: z.strictObject({ note: z.string() }),
+  }),
+});
+
+export const collections = { site, ui, experience, projects, skills, education, certifications };

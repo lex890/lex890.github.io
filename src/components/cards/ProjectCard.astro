@@ -1,0 +1,50 @@
+---
+/**
+ * ProjectCard — slanted image frame with a category tag, client, title,
+ * summary, tech tags, role and a "Select" button to the detail page.
+ * Lifts and gets the holo ring on hover.
+ */
+import ActionButton from '@/components/game/ActionButton';
+import TechTag from '@/components/game/TechTag.astro';
+import type { Project } from '@/lib/content';
+import s from './ProjectCard.module.scss';
+
+interface Props {
+  project: Project;
+  selectLabel: string;
+  /** Heading level for the title (h3 on the home page). */
+  level?: 2 | 3;
+}
+
+const { project, selectLabel, level = 3 } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3';
+const image = project.image ?? '/images/projects/placeholder-project.svg';
+const href = `/projects/${project.slug}`;
+---
+
+<article class:list={[s.card, 'hr', 'lift']}>
+  <div class={s.frame}>
+    <img class={s.image} src={image} alt={project.imageAlt} width="1280" height="720" loading="lazy" decoding="async" />
+    <span class={s.category}>{project.category}</span>
+  </div>
+
+  <div class={s.body}>
+    <p class={s.client}>{project.client}</p>
+    <Heading class={s.title}>{project.title}</Heading>
+    <p class={s.summary}>{project.summary}</p>
+    <ul class={s.tech} aria-label="Tech used">
+      {
+        project.tech.map((t) => (
+          <li>
+            <TechTag>{t}</TechTag>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class={s.foot}>
+    <span class={s.role}>{project.role}</span>
+    <ActionButton label={selectLabel} href={href} size="sm" ariaLabel={`${selectLabel} ${project.title}`} />
+  </div>
+</article>

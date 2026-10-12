@@ -1,0 +1,30 @@
+---
+/**
+ * Skills (#skills, 05 "Skills" / "Loadout") — grid of SkillGroup cards.
+ */
+import SkillGroup from '@/components/cards/SkillGroup.astro';
+import SectionHeader from '@/components/game/SectionHeader.astro';
+import type { SkillGroup as Group, Ui } from '@/lib/content';
+import s from './Skills.module.scss';
+
+interface Props {
+  ui: Ui;
+  skills: Group[];
+}
+
+const { ui, skills } = Astro.props;
+const header = ui.sections.skills;
+---
+
+<section id="skills" class:list={['wrap', 'section']} aria-labelledby="skills-title">
+  <SectionHeader num={header.num} label={header.label} title={header.title} id="skills-title" />
+  <ul class={s.grid}>
+    {
+      skills.map((group) => (
+        <li>
+          <SkillGroup group={group} />
+        </li>
+      ))
+    }
+  </ul>
+</section>

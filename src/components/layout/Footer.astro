@@ -1,0 +1,17 @@
+---
+/**
+ * Footer — "© {year} {name}" and a short note, muted.
+ */
+import { getSite, getUi } from '@/lib/content';
+import s from './Footer.module.scss';
+
+const [site, ui] = await Promise.all([getSite(), getUi()]);
+const year = new Date().getFullYear();
+---
+
+<footer class={s.footer}>
+  <div class:list={['wrap', s.inner]}>
+    <p>© {year} {site.name}</p>
+    <p>{ui.footer.note}</p>
+  </div>
+</footer>

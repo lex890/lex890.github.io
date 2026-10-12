@@ -1,0 +1,105 @@
+---
+/**
+ * Header — monogram + name, nav pill bar, "Download CV" button.
+ * Below 768px the pill bar and button move into <MobileNav> (a shadcn Sheet).
+ * The link for the section currently in view turns black (scroll spy below).
+ */
+import ActionButton from '@/components/game/ActionButton';
+import Monogram from '@/components/game/Monogram.astro';
+import MobileNav from './MobileNav';
+import { getSite, getUi } from '@/lib/content';
+import { cvHref } from '@/lib/site';
+import s from './Header.module.scss';
+
+const [site, ui] = await Promise.all([getSite(), getUi()]);
+const cv = cvHref(site.cvPdf);
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+// "/#about" → spy on #about; "/cv" → current when we're on /cv.
+const nav = site.nav.map((item) => {
+  const [base, hash] = item.href.split('#');
+  return { ...item, spy: hash ?? null, current: !hash && (base.replace(/\/$/, '') || '/') === path };
+});
+---
+
+<header class={s.header}>
+  <div class:list={['wrap', s.inner]}>
+    <a href="/" class={s.brand}>
+      <Monogram name={site.name} />
+      <span class={s.name}>{site.name}</span>
+    </a>
+
+    <nav class:list={[s.nav, 'hr']} aria-label="Main">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={[s.link, 'hf']}
+                data-spy={item.spy}
+                aria-current={item.current ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <ActionButton
+      label={ui.header.cvLabel}
+      href={cv.href}
+      download={cv.download || undefined}
+      icon="download"
+      className={s.cv}
+    />
+
+    <MobileNav
+      client:media="(max-width: 767.98px)"
+      name={site.name}
+      menuLabel={ui.header.menuLabel}
+      items={nav.map(({ label, href, spy, current }) => ({ label, href, spy, current }))}
+      cv={{ label: ui.header.cvLabel, ...cv }}
+      className={s.mobile}
+    />
+  </div>
+</header>
+
+<script>
+  // Scroll spy: mark the nav link of the section crossing the middle of the
+  // viewport with aria-current="location", and share it on <html data-section>
+  // so the MobileNav island can read it.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('a[data-spy]')];
+  const sections = [...new Set(links.map((a) => a.dataset.spy!))]
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  if (sections.length) {
+    const visible = new Set<string>();
+
+    const update = () => {
+      // Last in document order wins if two overlap the band.
+      const active = sections.filter((el) => visible.has(el.id)).at(-1)?.id ?? '';
+      document.documentElement.dataset.section = active;
+      for (const a of links) {
+        if (a.dataset.spy === active) a.setAttribute('aria-current', 'location');
+        else a.removeAttribute('aria-current');
+      }
+      document.dispatchEvent(new CustomEvent('sectionchange', { detail: active }));
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) visible.add(e.target.id);
+          else visible.delete(e.target.id);
+        }
+        update();
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    );
+    sections.forEach((el) => observer.observe(el));
+  }
+</script>

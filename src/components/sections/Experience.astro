@@ -1,0 +1,24 @@
+---
+/**
+ * Experience (#experience, 03 "Quest log") — one card per job.
+ */
+import ExperienceItem from '@/components/cards/ExperienceItem.astro';
+import SectionHeader from '@/components/game/SectionHeader.astro';
+import type { Experience, Ui } from '@/lib/content';
+import s from './Experience.module.scss';
+
+interface Props {
+  ui: Ui;
+  experience: Experience[];
+}
+
+const { ui, experience } = Astro.props;
+const header = ui.sections.experience;
+---
+
+<section id="experience" class:list={['wrap', 'section']} aria-labelledby="experience-title">
+  <SectionHeader num={header.num} label={header.label} title={header.title} id="experience-title" />
+  <div class={s.list}>
+    {experience.map((job, i) => <ExperienceItem job={job} index={i + 1} />)}
+  </div>
+</section>

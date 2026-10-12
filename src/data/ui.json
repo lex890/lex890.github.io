@@ -1,0 +1,73 @@
+{
+  "header": {
+    "cvLabel": "Download CV",
+    "menuLabel": "Menu"
+  },
+  "hero": {
+    "badge": "Available for full-time roles",
+    "photoAlt": "Portrait of John Lexter",
+    "classCard": { "label": "Class", "title": "Full-stack + Data", "text": "TypeScript · React · Node.js · Python" },
+    "stats": [
+      { "stat": "internships", "label": "Internships", "sub": "Completed" },
+      { "stat": "projects", "label": "Projects", "sub": "Shipped" },
+      { "stat": "certifications", "label": "Certifications", "sub": "Earned" },
+      { "stat": "skills", "label": "Skills", "sub": "Unlocked" }
+    ],
+    "primaryCta": { "label": "View projects", "href": "#projects" },
+    "secondaryCta": { "label": "Get in touch", "href": "#contact" }
+  },
+  "sections": {
+    "about": { "num": "02", "label": "Player profile", "title": "About" },
+    "experience": { "num": "03", "label": "Quest log", "title": "Experience" },
+    "projects": { "num": "04", "label": "Select a project", "title": "Projects" },
+    "skills": { "num": "05", "label": "Skills", "title": "Loadout" },
+    "credentials": { "num": "06", "label": "Education & certifications", "title": "Credentials" }
+  },
+  "player": {
+    "section": "Section 02",
+    "class": "Full-stack · Data",
+    "level": { "label": "BSCS", "value": 4, "max": 4 },
+    "tabs": { "stats": "Stats", "ability": "Ability" },
+    "stats": [
+      { "label": "Projects", "stat": "projects", "value": null },
+      { "label": "Internships", "stat": "internships", "value": null },
+      { "label": "Certifications", "stat": "certifications", "value": null },
+      { "label": "Skills", "stat": "skills", "value": null },
+      { "label": "Languages", "stat": "languages", "value": null },
+      { "label": "Clouds", "stat": null, "value": "AWS · GCP" }
+    ],
+    "abilities": [
+      { "label": "Full-stack web", "detail": "React · Node.js" },
+      { "label": "Data engineering", "detail": "ETL · BigQuery" },
+      { "label": "Cloud", "detail": "AWS · GCP" },
+      { "label": "Security", "detail": "JWT · RBAC" },
+      { "label": "Testing", "detail": "Playwright" },
+      { "label": "3D web", "detail": "Three.js" }
+    ],
+    "loadoutLabel": "+ Full loadout"
+  },
+  "about": {
+    "summaryLabel": "Summary",
+    "base": { "label": "Base", "title": "San Pedro, Laguna" },
+    "academy": { "label": "Academy", "title": "FEU Alabang", "text": "BS Computer Science" },
+    "status": { "label": "Status", "title": "Open to work" }
+  },
+  "projects": {
+    "allLabel": "All projects",
+    "selectLabel": "Select"
+  },
+  "credentials": {
+    "educationLabel": "Education",
+    "progressLabel": "Progress",
+    "watermark": "CS",
+    "certificationsTitle": "Certifications"
+  },
+  "contact": {
+    "label": "Contact",
+    "title": "Let's build something together.",
+    "text": "Have a role or a project in mind? My inbox is open."
+  },
+  "footer": {
+    "note": "Built with Astro"
+  }
+}

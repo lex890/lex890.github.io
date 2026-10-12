@@ -1,0 +1,55 @@
+// MobileNav — menu button + Sheet with stacked nav pills (< 768px)
+@use 'mixins' as *;
+
+.trigger {
+  gap: 8px;
+}
+
+.sheet {
+  gap: var(--space-5);
+  padding: 72px var(--gutter) var(--gutter);
+  background: var(--ground);
+  border: 0;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-lg);
+  padding: 0 22px;
+  border-radius: var(--r-pill);
+  background: var(--card);
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 600;
+
+  &[aria-current] {
+    background: var(--ink);
+    color: #fff;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--ink);
+    }
+  }
+}
+
+.cv {
+  width: 100%;
+  margin-top: auto;
+}

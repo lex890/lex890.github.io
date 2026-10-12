@@ -1,0 +1,16 @@
+// Monogram — black circle, lime initials (header, favicon style)
+
+.mono {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--lime);
+  font-size: calc(var(--size) * 0.4);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}

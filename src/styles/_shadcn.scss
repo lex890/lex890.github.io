@@ -60,3 +60,16 @@
 [data-slot='badge'] {
   border-radius: var(--r-pill);
 }
+
+// Sheet close (×): enlarge to the 44px touch target.
+[data-slot='sheet-content'] > [data-slot='sheet-close'] {
+  width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  border-radius: 50%;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}

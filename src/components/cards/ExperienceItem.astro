@@ -1,0 +1,44 @@
+---
+/**
+ * ExperienceItem — one job: numbered company StatPill, role, DateTag on the
+ * left; diamond-bulleted highlights and tech Chips on the right.
+ */
+import Chip from '@/components/game/Chip.astro';
+import DateTag from '@/components/game/DateTag.astro';
+import StatPill from '@/components/game/StatPill.astro';
+import type { Experience } from '@/lib/content';
+import { formatRange } from '@/lib/format';
+import { city } from '@/lib/site';
+import s from './ExperienceItem.module.scss';
+
+interface Props {
+  job: Experience;
+  /** 1-based position, shown in the pill. */
+  index: number;
+}
+
+const { job, index } = Astro.props;
+---
+
+<article class:list={[s.card, 'hr']}>
+  <div class={s.meta}>
+    <StatPill num={index} label={job.company} sub={city(job.location)} href={job.companyUrl ?? undefined} />
+    <h3 class={s.role}>{job.role}</h3>
+    <DateTag>{formatRange(job.start, job.end)}</DateTag>
+  </div>
+
+  <div class={s.body}>
+    <ul class={s.highlights}>
+      {job.highlights.map((h) => <li>{h}</li>)}
+    </ul>
+    <ul class={s.tech} aria-label="Tech used">
+      {
+        job.tech.map((t) => (
+          <li>
+            <Chip>{t}</Chip>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</article>

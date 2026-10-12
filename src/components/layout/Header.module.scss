@@ -1,0 +1,104 @@
+// Header — sticky top bar: brand · white nav pill bar · Download CV (§5 Shared layout)
+@use 'mixins' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding-block: 14px;
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--tap);
+  border-radius: var(--r-pill);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.name {
+  // Room is tight between 768 and 960px; the monogram alone is enough there.
+  @include bp(md) {
+    @include bp-down(lg) {
+      @include visually-hidden;
+    }
+  }
+}
+
+// ---- Desktop nav ------------------------------------------------------------
+
+.nav {
+  display: none;
+  margin-inline: auto;
+  padding: 5px;
+  border-radius: var(--r-pill);
+  background: var(--card);
+
+  @include bp(md) {
+    display: block;
+  }
+
+  ul {
+    display: flex;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  transition: background-color var(--t-fast), color var(--t-fast);
+
+  @include bp(lg) {
+    padding: 0 18px;
+  }
+
+  // Current section / page: black pill. Hover still goes holo with ink text.
+  &[aria-current] {
+    background: var(--ink);
+    color: #fff;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--ink);
+    }
+  }
+}
+
+.cv {
+  display: none;
+
+  @include bp(md) {
+    display: inline-flex;
+  }
+}
+
+// ---- Mobile ---------------------------------------------------------------
+
+.mobile {
+  margin-left: auto;
+
+  @include bp(md) {
+    display: none;
+  }
+}

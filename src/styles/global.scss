@@ -61,6 +61,15 @@
   @include container;
 }
 
+/// Vertical rhythm for home-page sections.
+.section {
+  padding-block: var(--space-7);
+
+  @include bp(lg) {
+    padding-block: var(--space-8);
+  }
+}
+
 /// Hidden visually, still read by screen readers.
 .sr-only {
   @include visually-hidden;

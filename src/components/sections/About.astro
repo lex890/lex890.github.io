@@ -1,0 +1,64 @@
+---
+/**
+ * About (#about, 02 "Player profile") — PlayerCard island on the left;
+ * Summary card and three InfoTiles (Base / Academy / Status) on the right.
+ */
+import PlayerCard from '@/components/cards/PlayerCard';
+import InfoTile from '@/components/game/InfoTile.astro';
+import Pill from '@/components/game/Pill.astro';
+import SectionHeader from '@/components/game/SectionHeader.astro';
+import type { Education, Site, Stats, Ui } from '@/lib/content';
+import { formatYearRange } from '@/lib/format';
+import { initials } from '@/lib/site';
+import s from './About.module.scss';
+
+interface Props {
+  site: Site;
+  ui: Ui;
+  stats: Stats;
+  education: Education[];
+}
+
+const { site, ui, stats, education } = Astro.props;
+const { player, about } = ui;
+const header = ui.sections.about;
+const school = education[0];
+
+const statRows = player.stats.map((row) => ({
+  label: row.label,
+  value: row.stat ? stats[row.stat] : (row.value ?? ''),
+}));
+---
+
+<section id="about" class:list={['wrap', 'section']} aria-labelledby="about-title">
+  <SectionHeader num={header.num} label={header.label} title={header.title} id="about-title" />
+
+  <div class={s.grid}>
+    <PlayerCard
+      client:visible
+      monogram={initials(site.name)}
+      section={player.section}
+      className={player.class}
+      level={player.level}
+      tabs={player.tabs}
+      stats={statRows}
+      abilities={player.abilities}
+      loadout={{ label: player.loadoutLabel, href: '#skills' }}
+    />
+
+    <div class={s.side}>
+      <div class:list={[s.summary, 'hr']}>
+        <Pill>{about.summaryLabel}</Pill>
+        <p class={s.summaryText}>{site.summary}</p>
+      </div>
+
+      <div class={s.tiles}>
+        <InfoTile variant="yellow" label={about.base.label} title={about.base.title} />
+        <InfoTile variant="white" label={about.academy.label} title={about.academy.title}>
+          {about.academy.text}{school && ` · ${formatYearRange(school.start, school.end)}`}
+        </InfoTile>
+        <InfoTile variant="black" label={about.status.label} title={about.status.title} />
+      </div>
+    </div>
+  </div>
+</section>

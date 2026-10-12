@@ -1,21 +1,44 @@
 ---
-// TEMPORARY (Phase 1): verifies Astro + React + Tailwind + shadcn/ui are wired up.
-// Replaced by the real home page in Phase 4.
-import '@/styles/global.css';
-import { Button } from '@/components/ui/button';
+/**
+ * Home — all sections from PORTFOLIO_PLAN §5, fed from src/data/.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/sections/Hero.astro';
+import About from '@/components/sections/About.astro';
+import Experience from '@/components/sections/Experience.astro';
+import Projects from '@/components/sections/Projects.astro';
+import Skills from '@/components/sections/Skills.astro';
+import Credentials from '@/components/sections/Credentials.astro';
+import Contact from '@/components/sections/Contact.astro';
+import {
+  getCertifications,
+  getEducation,
+  getExperience,
+  getProjects,
+  getSite,
+  getSkills,
+  getStats,
+  getUi,
+} from '@/lib/content';
+
+const [site, ui, stats, experience, projects, skills, education, certifications] = await Promise.all([
+  getSite(),
+  getUi(),
+  getStats(),
+  getExperience(),
+  getProjects(),
+  getSkills(),
+  getEducation(),
+  getCertifications(),
+]);
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Scaffold check</title>
-  </head>
-  <body>
-    <main style="display:grid;place-items:center;min-height:100vh;gap:1rem;align-content:center">
-      <h1>Phase 1 scaffold</h1>
-      <Button>shadcn Button</Button>
-      <Button variant="outline">Outline variant</Button>
-    </main>
-  </body>
-</html>
+<BaseLayout title={`${site.name} — ${site.role}`} description={site.tagline}>
+  <Hero site={site} ui={ui} stats={stats} />
+  <About site={site} ui={ui} stats={stats} education={education} />
+  <Experience ui={ui} experience={experience} />
+  <Projects ui={ui} projects={projects} />
+  <Skills ui={ui} skills={skills} />
+  <Credentials ui={ui} education={education} certifications={certifications} />
+  <Contact site={site} ui={ui} />
+</BaseLayout>

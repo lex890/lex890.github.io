@@ -1,0 +1,32 @@
+---
+/**
+ * SkillGroup — black count badge + group label, then gray Chips.
+ */
+import Chip from '@/components/game/Chip.astro';
+import type { SkillGroup } from '@/lib/content';
+import { pad } from '@/lib/format';
+import s from './SkillGroup.module.scss';
+
+interface Props {
+  group: SkillGroup;
+}
+
+const { group } = Astro.props;
+---
+
+<article class:list={[s.card, 'hr']}>
+  <h3 class={s.head}>
+    <span class={s.count} aria-hidden="true">{pad(group.items.length)}</span>
+    {group.label}
+    <span class="sr-only">({group.items.length})</span>
+  </h3>
+  <ul class={s.items}>
+    {
+      group.items.map((item) => (
+        <li>
+          <Chip>{item}</Chip>
+        </li>
+      ))
+    }
+  </ul>
+</article>

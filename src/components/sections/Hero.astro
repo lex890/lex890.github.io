@@ -1,0 +1,71 @@
+---
+/**
+ * Hero (numeral 01, decorative) — availability pill, name, role highlight,
+ * tagline, four StatPills, CTAs; on the right a stack of decorative layers
+ * around the profile photo. Everything on the right except the photo is
+ * aria-hidden.
+ */
+import ActionButton from '@/components/game/ActionButton';
+import Highlight from '@/components/game/Highlight.astro';
+import InfoTile from '@/components/game/InfoTile.astro';
+import NameTag from '@/components/game/NameTag.astro';
+import Pill from '@/components/game/Pill.astro';
+import StatPill from '@/components/game/StatPill.astro';
+import type { Site, Stats, Ui } from '@/lib/content';
+import s from './Hero.module.scss';
+
+interface Props {
+  site: Site;
+  ui: Ui;
+  stats: Stats;
+}
+
+const { site, ui, stats } = Astro.props;
+const { hero } = ui;
+const [first, ...rest] = site.name.split(' ');
+const photo = site.avatar ?? '/images/profile/placeholder-avatar.svg';
+---
+
+<section class:list={['wrap', s.hero]} aria-labelledby="hero-title">
+  <div class={s.copy}>
+    <Pill dot>{hero.badge}</Pill>
+
+    <h1 id="hero-title" class:list={['t-display', s.name]}>
+      {first}<br />{rest.join(' ')}
+    </h1>
+
+    <p class={s.role}><Highlight>{site.role}</Highlight></p>
+
+    <p class:list={['t-body-lg', s.tagline]}>{site.tagline}</p>
+
+    <ul class={s.stats}>
+      {
+        hero.stats.map((item) => (
+          <li>
+            <StatPill num={stats[item.stat]} label={item.label} sub={item.sub} countUp class={s.stat} />
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class={s.ctas}>
+      <ActionButton label={hero.primaryCta.label} href={hero.primaryCta.href} icon="arrow-right" size="lg" />
+      <ActionButton label={hero.secondaryCta.label} href={hero.secondaryCta.href} tone="secondary" size="lg" />
+    </div>
+  </div>
+
+  <div class={s.visual}>
+    <span class:list={[s.watermark, 'wm']} aria-hidden="true">01</span>
+    <span class={s.bar} aria-hidden="true"></span>
+    <span class={s.shape} aria-hidden="true"></span>
+    <img class={s.photo} src={photo} alt={hero.photoAlt} width="340" height="480" fetchpriority="high" />
+    <div class={s.classCard} aria-hidden="true">
+      <InfoTile variant="white" label={hero.classCard.label} title={hero.classCard.title}>
+        {hero.classCard.text}
+      </InfoTile>
+    </div>
+    <div class={s.nameTag} aria-hidden="true">
+      <NameTag>{site.name}</NameTag>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,237 @@
+// PlayerCard — white card (r34) · lime header · sliding Stats/Ability tabs (§5 /, item 2)
+//
+// shadcn's Tabs ships Tailwind classes; these module rules are unlayered, so
+// they override them without !important.
+@use 'mixins' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 380px;
+  border-radius: var(--r-card-lg);
+  background: var(--card);
+}
+
+// Black "JL" badge, top-right.
+.mono {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--lime);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+// ---- Lime header ------------------------------------------------------------
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 26px 22px;
+  border-radius: var(--r-card-lg) var(--r-card-lg) 0 0;
+  background: var(--lime);
+  color: var(--ink);
+}
+
+.section {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.cls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 52px; // clear the monogram
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.bang {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--lime);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.diamonds {
+  display: flex;
+  gap: 9px;
+  padding-left: 2px;
+
+  i {
+    @include diamond(10px);
+  }
+}
+
+.level {
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.bar {
+  display: block;
+  height: 10px;
+  border-radius: var(--r-pill);
+  background: rgba(17, 18, 20, 0.15);
+  overflow: hidden;
+
+  > span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--ink);
+  }
+}
+
+// ---- Tabs ---------------------------------------------------------------------
+
+.tabs {
+  gap: 0;
+}
+
+.list {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  height: auto;
+  padding: 0;
+  border-radius: 0;
+  background: var(--ink);
+}
+
+// Lime "active" background that slides between the two tabs (200ms).
+.indicator {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 50%;
+  background: var(--lime);
+  border-radius: 0 0 0 28px; // outer bottom corner of the left tab
+  transition:
+    transform 200ms var(--ease-out),
+    border-radius 200ms var(--ease-out);
+
+  .list[data-active='ability'] & {
+    transform: translateX(100%);
+    border-radius: 0 0 28px 0; // outer bottom corner of the right tab
+  }
+
+  @include reduced-motion {
+    transition: none;
+  }
+}
+
+.trigger {
+  height: 52px;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: none;
+  transition: color 200ms;
+
+  &[data-state='active'] {
+    background: transparent;
+    color: var(--ink);
+    box-shadow: none;
+  }
+
+  // Holo fill follows the active tab's rounded outer corner.
+  &[data-state='active'][data-side='start'] {
+    border-bottom-left-radius: 28px;
+  }
+  &[data-state='active'][data-side='end'] {
+    border-bottom-right-radius: 28px;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    outline-offset: -3px;
+    box-shadow: none;
+  }
+}
+
+// ---- Panels ---------------------------------------------------------------
+
+.panel {
+  padding: 18px 26px 8px;
+  font-size: 16px;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-block: 9px;
+  border-bottom: 1px solid var(--line);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &::before {
+    content: '';
+    @include diamond(9px);
+  }
+
+  dt {
+    color: var(--ink-2);
+  }
+
+  dd {
+    margin: 0 0 0 auto;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+}
+
+.row dd.detail {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.loadout {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  margin: 8px 26px 24px;
+  padding: 0 18px;
+  border-radius: var(--r-pill);
+  background: var(--ground);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+}

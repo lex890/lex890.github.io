@@ -1,0 +1,19 @@
+---
+/**
+ * Monogram — black circle with lime initials ("JL").
+ *   <Monogram name={site.name} size={44} />
+ */
+import { initials } from '@/lib/site';
+import s from './Monogram.module.scss';
+
+interface Props {
+  name: string;
+  /** Diameter in px. */
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 44, class: className } = Astro.props;
+---
+
+<span class:list={[s.mono, className]} style={`--size: ${size}px`} aria-hidden="true">{initials(name)}</span>

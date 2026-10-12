@@ -1,0 +1,36 @@
+---
+/**
+ * Contact (#contact, faded 07 watermark) — full-width lime panel with an
+ * email button and social buttons. Socials still set to REPLACE_ME are hidden.
+ */
+import ActionButton from '@/components/game/ActionButton';
+import Pill from '@/components/game/Pill.astro';
+import type { Site, Ui } from '@/lib/content';
+import { isPlaceholderUrl } from '@/lib/site';
+import s from './Contact.module.scss';
+
+interface Props {
+  site: Site;
+  ui: Ui;
+}
+
+const { site, ui } = Astro.props;
+const socials = site.socials.filter((x) => x.icon !== 'mail' && !isPlaceholderUrl(x.url));
+---
+
+<section id="contact" class:list={['wrap', 'section']} aria-labelledby="contact-title">
+  <div class:list={[s.panel, 'hf']}>
+    <span class:list={[s.wm, 'wm']} aria-hidden="true">07</span>
+    <Pill hover="none">{ui.contact.label}</Pill>
+    <h2 id="contact-title" class={s.title}>{ui.contact.title}</h2>
+    <p class={s.text}>{ui.contact.text}</p>
+    <div class={s.actions}>
+      <ActionButton label={site.email} href={`mailto:${site.email}`} tone="ink" icon="mail" size="lg" />
+      {
+        socials.map((x) => (
+          <ActionButton label={x.label} href={x.url} tone="secondary" size="lg" />
+        ))
+      }
+    </div>
+  </div>
+</section>

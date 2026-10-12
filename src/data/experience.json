@@ -1,0 +1,36 @@
+[
+  {
+    "id": "highly-succeed-swe-intern",
+    "role": "Software Developer Intern",
+    "company": "Highly Succeed Inc.",
+    "companyUrl": null,
+    "location": "Mandaluyong City, Philippines",
+    "start": "2026-04",
+    "end": "2026-07",
+    "type": "Internship",
+    "highlights": [
+      "Built core HRIS modules in TypeScript, owning features from database schema design to the backend-to-frontend data pipeline and UI.",
+      "Secured API endpoints with JWT authentication and role-based access control to protect sensitive employee data.",
+      "Ran manual and regression test cycles and implemented automated test cases with Playwright across the HRIS and the 3rd Fitness mobile app.",
+      "Co-built a full-stack content management system with an intern team, aggregating data from a public REST API, migrating it into a PostgreSQL database, and transforming it to power a React frontend."
+    ],
+    "tech": ["TypeScript", "React", "PostgreSQL", "JWT", "Playwright", "REST APIs"]
+  },
+  {
+    "id": "ogis-data-engineer-intern",
+    "role": "Data Engineer Intern",
+    "company": "OGIS Philippines Inc.",
+    "companyUrl": null,
+    "location": "Makati City, Philippines",
+    "start": "2025-12",
+    "end": "2026-03",
+    "type": "Internship",
+    "highlights": [
+      "Built and maintained AWS ETL pipelines (Lambda, S3, Redshift, EC2) to reduce manual data-preparation effort.",
+      "Validated and structured datasets to ensure accuracy and reliability of stakeholder reports.",
+      "Optimized SQL queries with JOINs to improve query performance.",
+      "Developed Power BI dashboards to support stakeholder reporting and decision-making."
+    ],
+    "tech": ["AWS Lambda", "S3", "Redshift", "EC2", "SQL", "Power BI"]
+  }
+]

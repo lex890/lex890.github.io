@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "lesaka-reporting-analytics",
+    "title": "Automated Reporting and Analytics Platform",
+    "client": "Lesaka Trading",
+    "role": "Fullstack Developer",
+    "summary": "A Google Cloud pipeline that consolidates spreadsheet reports from multiple accounts into a BigQuery warehouse, with automated dashboards and AI-generated insights.",
+    "highlights": [
+      "Built an automated reporting pipeline on Google Cloud that collects spreadsheet reports from multiple company accounts through the Google Sheets API, standardizes disparate formats, and consolidates them into a centralized analytics platform.",
+      "Designed a BigQuery data warehouse with Python-based ingestion, transformation, validation, and KPI aggregation to support management reporting.",
+      "Automated manager-facing dashboards and reports with Looker Studio and Google Sheets, reducing manual data consolidation and improving reporting consistency.",
+      "Added data-quality checks, anomaly detection, and Gemini-generated business insights, and deployed the workflow on Cloud Run and Cloud Scheduler for scheduled, scalable ingestion with minimal manual intervention."
+    ],
+    "tech": ["Python", "Google Cloud", "BigQuery", "Cloud Run", "Cloud Scheduler", "Looker Studio", "Google Sheets API", "Gemini"],
+    "category": "Data",
+    "image": "/images/projects/placeholder-project.svg",
+    "imageAlt": "Placeholder image for the analytics platform",
+    "links": { "live": null, "repo": null, "caseStudy": null },
+    "featured": true,
+    "date": null
+  },
+  {
+    "slug": "femys-resort-booking-platform",
+    "title": "Resort Booking & Management Platform with 3D Virtual Tour",
+    "client": "Femy's Resort",
+    "role": "Fullstack Developer",
+    "summary": "A PERN-stack resort platform with customer and admin interfaces, an end-to-end reservation flow, and an interactive Three.js 3D tour.",
+    "highlights": [
+      "Built a full-stack resort platform with separate customer and admin interfaces supporting an end-to-end reservation flow.",
+      "Developed an interactive 3D resort viewer with Three.js, letting guests explore the property before booking.",
+      "Implemented backend logic and data models with Node.js, Express, and PostgreSQL; built the React frontend for all three experiences (customer, admin, and 3D viewer).",
+      "Designed role-based access and workflows to separate customer booking actions from administrative management functions."
+    ],
+    "tech": ["React", "Node.js", "Express", "PostgreSQL", "Three.js"],
+    "category": "Fullstack",
+    "image": "/images/projects/placeholder-project.svg",
+    "imageAlt": "Placeholder image for the resort booking platform",
+    "links": { "live": null, "repo": null, "caseStudy": null },
+    "featured": true,
+    "date": null
+  },
+  {
+    "slug": "crypto-risk-assessment",
+    "title": "Cryptocurrency Investment Risk Assessment System",
+    "client": "University thesis",
+    "role": "Software Engineer and Frontend Developer",
+    "summary": "A desktop tool that ingests live crypto market data and uses ML models to generate risk scores and profitability insights.",
+    "highlights": [
+      "Co-developed a cryptocurrency investment risk assessment system with a team for a university thesis, aggregating and ingesting live market data to generate risk scores and insights on potential profitability.",
+      "Designed and built the desktop GUI in PySimpleGUI, letting users view risk scores and cryptocurrency insights without touching code.",
+      "Integrated CoinGecko and CoinMarketCap APIs into the application's data pipeline, and worked with a team using TensorFlow and scikit-learn for the analysis models and data validation.",
+      "Added automated tests and audit logging, and packaged the tool as a standalone Windows executable."
+    ],
+    "tech": ["Python", "PySimpleGUI", "TensorFlow", "scikit-learn", "CoinGecko API", "CoinMarketCap API"],
+    "category": "Machine Learning",
+    "image": "/images/projects/placeholder-project.svg",
+    "imageAlt": "Placeholder image for the crypto risk assessment system",
+    "links": { "live": null, "repo": null, "caseStudy": null },
+    "featured": true,
+    "date": null
+  }
+]

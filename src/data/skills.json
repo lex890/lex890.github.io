@@ -1,0 +1,10 @@
+[
+  { "id": "languages", "label": "Languages", "items": ["TypeScript", "JavaScript", "Python", "Java", "PHP", "C++", "C", "Pascal"] },
+  { "id": "frontend", "label": "Frontend", "items": ["React", "Three.js"] },
+  { "id": "backend", "label": "Backend", "items": ["Node.js", "Express", "FastAPI", "Ruby on Rails"] },
+  { "id": "databases", "label": "Databases", "items": ["PostgreSQL", "MySQL", "MongoDB", "BigQuery"] },
+  { "id": "cloud-devops", "label": "Cloud & DevOps", "items": ["AWS", "Google Cloud", "Cloud Run", "Docker", "nginx", "Git"] },
+  { "id": "data-ml", "label": "Data & ML", "items": ["Machine Learning", "Looker Studio", "Power BI"] },
+  { "id": "testing-tools", "label": "Testing & Tools", "items": ["Playwright", "Claude Code", "OpenCode"] },
+  { "id": "practices", "label": "Practices", "items": ["OOP", "Team collaboration"] }
+]

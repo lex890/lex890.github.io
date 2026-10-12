@@ -1,0 +1,153 @@
+/**
+ * Content collections: every JSON file in src/data/ is loaded and validated
+ * here. If any data doesn't match its schema, `astro build` / `astro dev` fail
+ * with an error naming the file, entry and field.
+ *
+ * Edit content in src/data/*.json, never in components.
+ *
+ * Conventions (PORTFOLIO_PLAN §4.1):
+ * - Dates are "YYYY-MM" strings, or null for "Present".
+ * - Optional fields are present but null (or []), so every entry has the same shape.
+ * - Objects are strict: an unknown or misspelled key is an error, not silently dropped.
+ *
+ * Every entry also gets an `order` field (its position in the JSON file)
+ * because getCollection() does not guarantee order. Sort with `byOrder`
+ * from src/lib/content.ts.
+ */
+import { defineCollection } from 'astro:content';
+import { file } from 'astro/loaders';
+import { z } from 'astro/zod';
+
+// ---- Shared field types ------------------------------------------------------
+
+/** "2026-04" */
+const yearMonth = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Use "YYYY-MM", e.g. "2026-04"');
+
+/** Root-relative path to a file in public/, e.g. "/images/x.svg" */
+const publicPath = z.string().startsWith('/', 'Paths must start with "/" (relative to public/)');
+
+/** Absolute URL (https:, mailto:, …) */
+const url = z.url();
+
+const order = z.number().int();
+
+// ---- Parsers -------------------------------------------------------------------
+
+type Raw = Record<string, unknown>;
+
+/** JSON array → entries with an `order` index. `idKey` names the field used as the entry id. */
+const listParser = (idKey: string) => (text: string) =>
+  (JSON.parse(text) as Raw[]).map((item, i) => ({ ...item, id: item[idKey], order: i }));
+
+/** Single JSON object → one entry with id "site". */
+const singleParser = (text: string) => [{ id: 'site', ...(JSON.parse(text) as Raw) }];
+
+// ---- Collections -------------------------------------------------------------
+
+const site = defineCollection({
+  loader: file('src/data/site.json', { parser: singleParser }),
+  schema: z.strictObject({
+    id: z.literal('site'),
+    name: z.string().min(1),
+    role: z.string().min(1),
+    tagline: z.string().min(1),
+    summary: z.string().min(1),
+    location: z.string().min(1),
+    email: z.email(),
+    phone: z.string().nullable(),
+    availability: z.string().min(1),
+    avatar: publicPath.nullable(),
+    ogImage: publicPath,
+    cvPdf: publicPath.nullable(),
+    socials: z.array(
+      z.strictObject({
+        id: z.string(),
+        label: z.string(),
+        url,
+        icon: z.enum(['linkedin', 'github', 'mail']),
+      }),
+    ),
+    nav: z.array(z.strictObject({ label: z.string(), href: z.string() })),
+  }),
+});
+
+const experience = defineCollection({
+  loader: file('src/data/experience.json', { parser: listParser('id') }),
+  schema: z.strictObject({
+    id: z.string(),
+    order,
+    role: z.string().min(1),
+    company: z.string().min(1),
+    companyUrl: url.nullable(),
+    location: z.string(),
+    start: yearMonth,
+    end: yearMonth.nullable(),
+    type: z.string(),
+    highlights: z.array(z.string()).min(1),
+    tech: z.array(z.string()),
+  }),
+});
+
+const projects = defineCollection({
+  // Projects are keyed by `slug` (used in /projects/[slug]).
+  loader: file('src/data/projects.json', { parser: listParser('slug') }),
+  schema: z.strictObject({
+    id: z.string(),
+    order,
+    slug: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'Use lowercase-kebab-case'),
+    title: z.string().min(1),
+    client: z.string(),
+    role: z.string(),
+    summary: z.string().min(1),
+    highlights: z.array(z.string()).min(1),
+    tech: z.array(z.string()),
+    category: z.string().min(1),
+    image: publicPath.nullable(),
+    imageAlt: z.string().min(1),
+    links: z.strictObject({
+      live: url.nullable(),
+      repo: url.nullable(),
+      caseStudy: url.nullable(),
+    }),
+    featured: z.boolean(),
+    date: yearMonth.nullable(),
+  }),
+});
+
+const skills = defineCollection({
+  loader: file('src/data/skills.json', { parser: listParser('id') }),
+  schema: z.strictObject({
+    id: z.string(),
+    order,
+    label: z.string().min(1),
+    items: z.array(z.string()).min(1),
+  }),
+});
+
+const education = defineCollection({
+  loader: file('src/data/education.json', { parser: listParser('id') }),
+  schema: z.strictObject({
+    id: z.string(),
+    order,
+    degree: z.string().min(1),
+    school: z.string().min(1),
+    location: z.string(),
+    start: yearMonth,
+    end: yearMonth.nullable(),
+    notes: z.array(z.string()),
+  }),
+});
+
+const certifications = defineCollection({
+  loader: file('src/data/certifications.json', { parser: listParser('id') }),
+  schema: z.strictObject({
+    id: z.string(),
+    order,
+    title: z.string().min(1),
+    issuer: z.string().min(1),
+    date: yearMonth,
+    url: url.nullable(),
+  }),
+});
+
+export const collections = { site, experience, projects, skills, education, certifications };

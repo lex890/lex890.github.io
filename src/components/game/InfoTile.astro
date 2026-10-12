@@ -1,0 +1,31 @@
+---
+/**
+ * InfoTile — label + title + optional text, in yellow / white / black.
+ *   <InfoTile variant="yellow" label="Base" title="San Pedro, Laguna" />
+ *   <InfoTile variant="white" label="Academy" title="FEU Alabang">BS Computer Science · 2022–2026</InfoTile>
+ * Hover follows the variant (yellow → fill, white → ring, black → fill-dark)
+ * unless `hover` is given.
+ */
+import { hoverClass, type Hover } from '@/lib/hover';
+import s from './InfoTile.module.scss';
+
+type Variant = 'yellow' | 'white' | 'black';
+
+interface Props {
+  variant?: Variant;
+  label: string;
+  title: string;
+  hover?: Hover;
+  class?: string;
+}
+
+const defaultHover: Record<Variant, Hover> = { yellow: 'fill', white: 'ring', black: 'fill-dark' };
+const { variant = 'white', label, title, hover = defaultHover[variant], class: className } = Astro.props;
+const hasText = Astro.slots.has('default');
+---
+
+<div class:list={[s.tile, s[variant], hoverClass(hover), className]}>
+  <span class={s.label}>{label}</span>
+  <span class={s.title}>{title}</span>
+  {hasText && <span class={s.text}><slot /></span>}
+</div>

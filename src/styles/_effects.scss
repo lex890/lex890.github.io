@@ -1,0 +1,176 @@
+// ==========================================================================
+// _effects.scss — hover / focus / motion utilities (§7.4). Pure CSS, no JS.
+// --------------------------------------------------------------------------
+// Pick ONE hover treatment per element (components expose it as a `hover`
+// prop; see src/lib/hover.ts):
+//
+//   .hf            holo FILL  — for filled elements (black/violet/lime/yellow/
+//                  gray). On hover the background fades to the holo gradient.
+//   .hf .hf-dark   add to .hf on elements with WHITE text (black, violet). On
+//                  hover all text/icons/borders turn ink, .rule dividers and
+//                  .wm watermarks darken, so contrast holds on the gradient.
+//   .hr            holo RING  — for white elements (cards, tiles, nav bar,
+//                  secondary buttons). A 3px gradient outline fades in.
+//
+// Extras:
+//   .lift          card hover: rise 6px and tilt -0.6deg (250ms)
+//   .press         button hover: rise 2px (150ms)
+//
+// Every .hf / .hr element shows the same effect on :focus-visible, plus the
+// 3px violet focus ring. With prefers-reduced-motion the shimmer, lift and
+// press movement are disabled; the color fades remain.
+//
+// Positioning uses :where() (zero specificity) so a component can still set
+// `position: absolute` on itself without fighting these rules.
+// ==========================================================================
+
+@use 'mixins' as *;
+
+@keyframes holo-shift {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+// ---- 1. Holo fill ---------------------------------------------------------
+:where(.hf) {
+  position: relative;
+}
+
+.hf {
+  isolation: isolate;
+
+  // Sits between the element's own background and its content.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--holo);
+    background-size: 200% 200%;
+    opacity: 0;
+    transition: opacity var(--t-fade);
+    pointer-events: none;
+  }
+
+  &:hover::before,
+  &:focus-visible::before {
+    opacity: 1;
+    animation: holo-shift 3s linear infinite alternate;
+  }
+}
+
+// ---- 2. Dark-on-holo text swap (for white-text elements) -----------------
+// !important is deliberate: this is a state utility that must beat any
+// component's own color rules (e.g. a lime label inside a black tile),
+// whatever their specificity or load order.
+.hf-dark {
+  transition: color var(--t-fade);
+
+  .rule,
+  .wm {
+    transition:
+      background-color var(--t-fade),
+      border-color var(--t-fade),
+      color var(--t-fade);
+  }
+
+  &:hover,
+  &:hover *,
+  &:focus-visible,
+  &:focus-visible * {
+    color: var(--ink) !important;
+    border-color: var(--ink) !important;
+  }
+
+  &:hover .rule,
+  &:focus-visible .rule {
+    background-color: rgba(17, 18, 20, 0.35) !important;
+    border-color: rgba(17, 18, 20, 0.35) !important;
+  }
+
+  &:hover .wm,
+  &:focus-visible .wm {
+    color: rgba(17, 18, 20, 0.07) !important;
+  }
+}
+
+// ---- 3. Holo ring ---------------------------------------------------------
+:where(.hr) {
+  position: relative;
+}
+
+.hr {
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    padding: 3px;
+    border-radius: inherit;
+    background: var(--holo);
+    background-size: 200% 200%;
+    // Show only the 3px padding band: content-box XOR border-box.
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity var(--t-fade);
+    pointer-events: none;
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    opacity: 1;
+    animation: holo-shift 3s linear infinite alternate;
+  }
+}
+
+// ---- Focus ring for every interactive effect element ----------------------
+.hf:focus-visible,
+.hr:focus-visible {
+  @include focus-ring;
+}
+
+// ---- Movement -------------------------------------------------------------
+.lift {
+  transition: transform var(--t-base) var(--ease-out);
+
+  &:hover,
+  &:focus-within {
+    transform: translateY(-6px) rotate(-0.6deg);
+  }
+}
+
+.press {
+  transition: transform var(--t-fast) ease-out;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+// ---- Reduced motion: no shimmer, no movement (fades stay) -----------------
+@include reduced-motion {
+  .hf:hover::before,
+  .hf:focus-visible::before,
+  .hr:hover::after,
+  .hr:focus-visible::after {
+    animation: none;
+  }
+
+  .lift:hover,
+  .lift:focus-within,
+  .press:hover {
+    transform: none;
+  }
+}

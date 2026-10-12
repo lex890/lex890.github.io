@@ -1,0 +1,85 @@
+// ==========================================================================
+// global.scss — entry point for ALL of our own global styles
+// --------------------------------------------------------------------------
+// Imported once in BaseLayout, AFTER global.css (Tailwind + shadcn).
+// Component-specific styles do not go here; they live in a *.module.scss
+// next to each component.
+//
+// Partials (each one is documented at its top):
+//   _tokens.scss      colors, radius, spacing, fonts, motion + shadcn mapping
+//   _mixins.scss      breakpoints, container, focus ring, cut-corner, slant…
+//                     (emits no CSS; components `@use 'mixins' as *;`)
+//   _typography.scss  element defaults + .t-* type scale classes
+//   _effects.scss     .hf / .hf-dark / .hr holo hover, .lift, .press
+//   _shadcn.scss      shape/size overrides for shadcn components
+//   _print.scss       @media print rules for /cv (added in Phase 6)
+// ==========================================================================
+
+@use 'mixins' as *;
+@use 'tokens';
+@use 'typography';
+@use 'effects';
+@use 'shadcn';
+
+@layer base {
+  html {
+    background: var(--ground);
+    scroll-behavior: smooth;
+    scroll-padding-top: 96px; // keeps anchored headings clear of the header
+
+    @include reduced-motion {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    min-height: 100vh;
+    background: var(--ground);
+    overflow-x: clip;
+  }
+
+  img,
+  svg {
+    max-width: 100%;
+  }
+
+  ::selection {
+    background: var(--lime);
+    color: var(--ink);
+  }
+
+  // Baseline keyboard focus for everything (effects add holo on top).
+  :focus-visible {
+    @include focus-ring;
+  }
+}
+
+// ---- Layout helpers -------------------------------------------------------
+
+/// Centered page container (1240px, 24px gutters).
+.wrap {
+  @include container;
+}
+
+/// Hidden visually, still read by screen readers.
+.sr-only {
+  @include visually-hidden;
+}
+
+/// "Skip to content" link: hidden until focused.
+.skip-link {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 12px 20px;
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+  transform: translateY(-200%);
+
+  &:focus-visible {
+    transform: none;
+  }
+}

@@ -1,0 +1,28 @@
+---
+/**
+ * Pill — small rounded label. Becomes a link when `href` is set.
+ *   <Pill dot>Available for full-time roles</Pill>
+ *   <Pill tone="gray" href="#skills">+ Full loadout</Pill>
+ */
+import { hoverClass, type Hover } from '@/lib/hover';
+import s from './Pill.module.scss';
+
+type Tone = 'ink' | 'lime' | 'white' | 'gray';
+
+interface Props {
+  tone?: Tone;
+  dot?: boolean;
+  href?: string;
+  hover?: Hover;
+  class?: string;
+}
+
+const defaultHover: Record<Tone, Hover> = { ink: 'fill-dark', lime: 'fill', white: 'ring', gray: 'fill' };
+const { tone = 'ink', dot = false, href, hover = defaultHover[tone], class: className } = Astro.props;
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag href={href} class:list={[s.pill, s[tone], hoverClass(hover), className]}>
+  {dot && <span class={s.dot} aria-hidden="true"></span>}
+  <slot />
+</Tag>

@@ -1,0 +1,108 @@
+// ==========================================================================
+// _typography.scss — type scale (§7.2)
+// --------------------------------------------------------------------------
+// Font: Outfit Variable (300–900), self-hosted via @fontsource-variable/outfit
+// and imported in BaseLayout. Fallback: system-ui, sans-serif.
+//
+// Element defaults sit in `@layer base` so Tailwind utilities inside shadcn
+// components can still override them. The .t-* classes below are unlayered
+// and can be put on any element:
+//
+//   <h1 class="t-display">   64–136px / 800 / -0.045em / lh .88
+//   <h2 class="t-h2">        52px (fluid down to 38px) / 700 / -0.03em
+//   <h3 class="t-h3">        23–30px / 700 / -0.02em
+//   <p  class="t-body-lg">   21px body
+//   <span class="t-label">   13–15px / 600 / uppercase / +0.09em
+//   <span class="t-numeral"> 96px / 800 outlined (section numbers)
+// ==========================================================================
+
+@layer base {
+  html {
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.t-display {
+  font-size: clamp(64px, 11vw, 136px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.88;
+}
+
+.t-h2 {
+  font-size: clamp(38px, 5vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.t-h3 {
+  font-size: clamp(23px, 2.4vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.t-body {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.t-body-lg {
+  font-size: clamp(18px, 1.6vw, 21px);
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.t-label {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+}
+
+// Big number inside pills (StatPill etc.)
+.t-pill-num {
+  font-size: 31px;
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+// Outlined section numeral: transparent fill with an ink stroke.
+.t-numeral {
+  font-size: 96px;
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
+}

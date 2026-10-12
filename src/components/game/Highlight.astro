@@ -1,0 +1,18 @@
+---
+/**
+ * Highlight — tilted lime marker block. Inherits font size from its parent.
+ *   <Highlight>Software Developer</Highlight>
+ */
+import { hoverClass, type Hover } from '@/lib/hover';
+import s from './Highlight.module.scss';
+
+interface Props {
+  as?: 'span' | 'p' | 'strong';
+  hover?: Hover;
+  class?: string;
+}
+
+const { as: Tag = 'span', hover = 'fill', class: className } = Astro.props;
+---
+
+<Tag class:list={[s.highlight, hoverClass(hover), className]}><slot /></Tag>

@@ -1,0 +1,21 @@
+---
+/**
+ * NameTag — black name label with a chevron, like a character-select tag.
+ *   <NameTag>John Lexter</NameTag>
+ */
+import { ChevronDown } from 'lucide-react';
+import { hoverClass, type Hover } from '@/lib/hover';
+import s from './NameTag.module.scss';
+
+interface Props {
+  hover?: Hover;
+  class?: string;
+}
+
+const { hover = 'fill-dark', class: className } = Astro.props;
+---
+
+<div class:list={[s.tag, hoverClass(hover), className]}>
+  <span><slot /></span>
+  <span class={s.chev} aria-hidden="true"><ChevronDown size={18} strokeWidth={2.5} /></span>
+</div>

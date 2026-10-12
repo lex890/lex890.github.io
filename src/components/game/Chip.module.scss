@@ -1,0 +1,13 @@
+// Chip — gray pill, 7px 14px, 15px/500 (§7.5)
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  border-radius: var(--r-pill);
+  background: var(--ground);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+}

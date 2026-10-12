@@ -1,0 +1,17 @@
+---
+/**
+ * TechTag — outlined tag for a project's tech stack.
+ *   <TechTag>BigQuery</TechTag>
+ */
+import { hoverClass, type Hover } from '@/lib/hover';
+import s from './TechTag.module.scss';
+
+interface Props {
+  hover?: Hover;
+  class?: string;
+}
+
+const { hover = 'fill', class: className } = Astro.props;
+---
+
+<span class:list={[s.tag, hoverClass(hover), className]}><slot /></span>

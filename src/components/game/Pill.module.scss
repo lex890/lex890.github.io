@@ -1,0 +1,47 @@
+// Pill — small label pill ("Summary", "Contact", "Available for…")
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.ink {
+  background: var(--ink);
+  color: #fff;
+}
+
+.lime {
+  background: var(--lime);
+  color: var(--ink);
+}
+
+.white {
+  background: var(--card);
+  color: var(--ink);
+}
+
+.gray {
+  background: var(--ground);
+  color: var(--ink);
+}
+
+// Status dot (lime on ink, ink on light pills).
+.dot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--lime);
+
+  .lime &,
+  .white &,
+  .gray & {
+    background: var(--ink);
+  }
+}

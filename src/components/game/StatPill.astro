@@ -1,0 +1,38 @@
+---
+/**
+ * StatPill — black pill with a big number, divider, label and sub-label.
+ *   <StatPill num={2} label="Internships" sub="Completed" countUp />
+ *   <StatPill num="22" label="CS50x" sub="edX · Dec 2022" />
+ */
+import CountUp from './CountUp';
+import { hoverClass, type Hover } from '@/lib/hover';
+import s from './StatPill.module.scss';
+
+interface Props {
+  num: number | string;
+  label: string;
+  sub?: string | null;
+  /** Zero-pad numeric values to this many digits. */
+  pad?: number;
+  /** Animate the number when scrolled into view (numeric `num` only). */
+  countUp?: boolean;
+  href?: string;
+  hover?: Hover;
+  class?: string;
+}
+
+const { num, label, sub, pad = 2, countUp = false, href, hover = 'fill-dark', class: className } = Astro.props;
+const Tag = href ? 'a' : 'div';
+const display = typeof num === 'number' ? String(num).padStart(pad, '0') : num;
+---
+
+<Tag href={href} class:list={[s.pill, hoverClass(hover), className]}>
+  <span class={s.num}>
+    {countUp && typeof num === 'number' ? <CountUp client:visible value={num} pad={pad} /> : display}
+  </span>
+  <span class:list={[s.rule, 'rule']} aria-hidden="true"></span>
+  <span class={s.text}>
+    <span class={s.label}>{label}</span>
+    {sub && <span class={s.sub}>{sub}</span>}
+  </span>
+</Tag>

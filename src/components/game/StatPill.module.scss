@@ -1,0 +1,39 @@
+// StatPill — black pill: big number · divider · label over sub-label (§7.5)
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 22px 10px 20px;
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: #fff;
+  min-height: var(--tap);
+}
+
+.num {
+  composes: t-pill-num from global;
+}
+
+// The vertical divider; `.rule` (global) lets .hf-dark darken it on hover.
+.rule {
+  align-self: stretch;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.label {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.sub {
+  font-size: 13px;
+  color: var(--on-ink-muted);
+}

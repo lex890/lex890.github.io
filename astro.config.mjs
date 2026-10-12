@@ -9,5 +9,14 @@ export default defineConfig({
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          // Lets any *.module.scss write `@use 'mixins' as *;` without relative paths
+          // (resolved from the project root, where npm scripts run).
+          loadPaths: ['src/styles'],
+        },
+      },
+    },
   },
 });

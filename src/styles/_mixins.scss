@@ -1,0 +1,130 @@
+// ==========================================================================
+// _mixins.scss — reusable Sass mixins (emits NO CSS on its own)
+// --------------------------------------------------------------------------
+// Use from any component module:
+//
+//   @use 'mixins' as *;          // resolved via the Sass loadPath in astro.config
+//   .card { @include bp(md) { padding: 32px; } }
+//
+// Contents:
+//   bp($name)                 min-width media query (sm 480 · md 768 · lg 960 · xl 1240)
+//   bp-down($name)            max-width media query (just below the breakpoint)
+//   container                 centered 1240px page container with 24px gutters
+//   focus-ring                3px violet outline, 3px offset
+//   visually-hidden           hide visually, keep for screen readers
+//   reduced-motion            wraps rules for prefers-reduced-motion: reduce
+//   cut-corner($size, $corners)  clip-path with 45° cut corners
+//   slant($amount)            parallelogram clip-path (7% frames, 10px tags)
+//   diamond($size, $color)    small square rotated 45° (bullets, level marks)
+// ==========================================================================
+
+@use 'sass:list';
+@use 'sass:map';
+
+$breakpoints: (
+  sm: 480px,
+  md: 768px,
+  lg: 960px,
+  xl: 1240px,
+);
+
+/// Min-width media query. `@include bp(md) { ... }` → ≥ 768px.
+@mixin bp($name) {
+  @media (min-width: map.get($breakpoints, $name)) {
+    @content;
+  }
+}
+
+/// Max-width media query. `@include bp-down(md) { ... }` → < 768px.
+@mixin bp-down($name) {
+  @media (max-width: calc(#{map.get($breakpoints, $name)} - 0.02px)) {
+    @content;
+  }
+}
+
+/// Page container: max 1240px, 24px side padding.
+@mixin container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/// The site-wide keyboard focus ring.
+@mixin focus-ring {
+  outline: 3px solid var(--violet);
+  outline-offset: 3px;
+}
+
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+/// Cut 45° corners off a box with clip-path.
+/// $corners: any of tl, tr, br, bl (default: all four).
+///   @include cut-corner(40px);            // hero photo
+///   @include cut-corner(26px, (tr));      // Base tile, top-right only
+/// Note: clip-path also clips outlines/shadows — avoid on .hr elements.
+@mixin cut-corner($size, $corners: (tl, tr, br, bl)) {
+  $s: $size;
+  $inv: calc(100% - #{$s});
+  $points: ();
+
+  @if list.index($corners, tl) {
+    $points: list.append($points, 0 $s, comma);
+    $points: list.append($points, $s 0, comma);
+  } @else {
+    $points: list.append($points, 0 0, comma);
+  }
+  @if list.index($corners, tr) {
+    $points: list.append($points, $inv 0, comma);
+    $points: list.append($points, 100% $s, comma);
+  } @else {
+    $points: list.append($points, 100% 0, comma);
+  }
+  @if list.index($corners, br) {
+    $points: list.append($points, 100% $inv, comma);
+    $points: list.append($points, $inv 100%, comma);
+  } @else {
+    $points: list.append($points, 100% 100%, comma);
+  }
+  @if list.index($corners, bl) {
+    $points: list.append($points, $s 100%, comma);
+    $points: list.append($points, 0 $inv, comma);
+  } @else {
+    $points: list.append($points, 0 100%, comma);
+  }
+
+  clip-path: polygon($points);
+}
+
+/// Parallelogram: top edge shifted right, bottom edge shifted left.
+/// $amount can be a % of the width (7% → project frames) or a length
+/// (10px → DateTag ends).
+@mixin slant($amount) {
+  clip-path: polygon(#{$amount} 0, 100% 0, calc(100% - #{$amount}) 100%, 0 100%);
+}
+
+/// Diamond marker (9–11px). Use on ::before of list items, or on a span.
+@mixin diamond($size: 10px, $color: var(--ink)) {
+  display: inline-block;
+  flex: none;
+  width: $size;
+  height: $size;
+  background: $color;
+  transform: rotate(45deg);
+}

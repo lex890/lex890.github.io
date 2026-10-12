@@ -1,0 +1,100 @@
+// ==========================================================================
+// _tokens.scss — design tokens (the single source of truth)
+// --------------------------------------------------------------------------
+// Everything visual (color, radius, font, spacing, motion) is defined here
+// once, as CSS custom properties on :root. Components read them with var().
+//
+//   .thing { background: var(--lime); border-radius: var(--r-card); }
+//
+// The second block maps shadcn/ui's theme variables onto the same tokens,
+// so shadcn components and our SCSS components always match.
+//
+// Light mode only — there is no dark theme (PORTFOLIO_PLAN §1, §5).
+// Don't add colors here without updating the plan (§7.1).
+// ==========================================================================
+
+:root {
+  color-scheme: light;
+
+  // ---- Colors (§7.1) -----------------------------------------------------
+  --ground: #eef0f4; //        page background, gray chips
+  --card: #ffffff; //          cards, nav bar
+  --ink: #111214; //           text, pills, tabs, dark cards
+  --ink-2: #3a3f4a; //         body copy on white
+  --muted: #5a5f6b; //         labels, captions (AA on ground and white)
+  --on-ink-muted: #c9ccd3; //  secondary text on black
+  --lime: #5cff4a; //          main accent
+  --yellow: #ffc21a; //        hero shape, date/category tags, Base tile
+  --violet: #7b2ff7; //        primary buttons (white text)
+  --magenta: #e6338a; //       project image frame edge ONLY
+  --watermark: #dfe2e8; //     giant faded numerals
+  --line: #e1e4ea; //          hairline borders (shadcn --border, placeholder grid)
+  --holo: linear-gradient(
+    45deg,
+    #5ec0c3 0%,
+    #81d2e5 22%,
+    #a4ccf0 40%,
+    #c7a9ef 62%,
+    #e59aef 82%,
+    #e68ee5 100%
+  ); //                         hover fills and outlines (_effects.scss)
+
+  // ---- Typography (§7.2) -------------------------------------------------
+  --font-body: 'Outfit Variable', system-ui, sans-serif;
+
+  // ---- Shape (§7.3) ------------------------------------------------------
+  --r-pill: 999px; //      pills, buttons, chips
+  --r-card: 32px; //       standard cards (range 26–34px)
+  --r-card-sm: 26px; //    tiles, NameTag
+  --r-card-lg: 34px; //    PlayerCard
+  --r-panel: 44px; //      contact panel
+  --r-highlight: 14px; //  Highlight blocks
+
+  // ---- Spacing -----------------------------------------------------------
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  --container: 1240px; //  max page width
+  --gutter: 24px; //       page side padding
+  --tap: 44px; //          minimum touch target
+  --tap-lg: 56px; //       primary button height
+
+  // ---- Motion ------------------------------------------------------------
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --t-fast: 150ms;
+  --t-base: 250ms;
+  --t-fade: 300ms;
+
+  // ==========================================================================
+  // shadcn/ui theme mapping — DO NOT put raw colors here, only token refs.
+  // ==========================================================================
+  --background: var(--ground);
+  --foreground: var(--ink);
+  // --card is shared by name: shadcn's card color IS our --card token.
+  --card-foreground: var(--ink);
+  --popover: var(--card);
+  --popover-foreground: var(--ink);
+  --primary: var(--violet);
+  --primary-foreground: #fff;
+  --secondary: var(--ground);
+  --secondary-foreground: var(--ink);
+  --accent: var(--lime);
+  --accent-foreground: var(--ink);
+  --destructive: var(--magenta);
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--violet);
+  --radius: 1rem;
+
+  // Name clash: shadcn's "muted" means a subtle BACKGROUND, but our --muted
+  // is a text color. global.css reads these two instead of --muted.
+  --sc-muted: var(--ground);
+  --sc-muted-foreground: var(--muted);
+}

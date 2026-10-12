@@ -1,0 +1,11 @@
+// Highlight — lime block, radius 14px, rotated -2deg, weight 700 (§7.5)
+
+.highlight {
+  display: inline-block;
+  padding: 0.08em 0.32em 0.12em;
+  border-radius: var(--r-highlight);
+  background: var(--lime);
+  color: var(--ink);
+  font-weight: 700;
+  transform: rotate(-2deg);
+}

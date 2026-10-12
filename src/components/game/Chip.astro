@@ -1,0 +1,17 @@
+---
+/**
+ * Chip — gray tag for skills and tech.
+ *   <Chip>TypeScript</Chip>
+ */
+import { hoverClass, type Hover } from '@/lib/hover';
+import s from './Chip.module.scss';
+
+interface Props {
+  hover?: Hover;
+  class?: string;
+}
+
+const { hover = 'fill', class: className } = Astro.props;
+---
+
+<span class:list={[s.chip, hoverClass(hover), className]}><slot /></span>

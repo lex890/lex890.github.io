@@ -1,0 +1,62 @@
+// ==========================================================================
+// _shadcn.scss — restyles shadcn/ui components to match the mockup (§6)
+// --------------------------------------------------------------------------
+// We never hand-edit files in src/components/ui/. Instead, every shadcn
+// component renders a `data-slot` attribute, and we target that here.
+// These rules are unlayered, so they win over Tailwind's utility layer.
+// Only shape, size and type change here; behavior is untouched, and colors
+// come from the token mapping in _tokens.scss.
+//
+//   <Button>                   violet, white text (shadcn "default")
+//   <Button variant="outline"> white "secondary" button
+//   <Button data-tone="ink">   black button (e.g. email, "All projects")
+//   size="lg"                  56px primary height; default is 44px (tap target)
+// ==========================================================================
+
+[data-slot='button'] {
+  height: var(--tap);
+  padding-inline: 20px;
+  gap: 8px;
+  border-radius: var(--r-pill);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+
+  // We use the site-wide outline ring (_effects.scss), not shadcn's box-shadow ring.
+  &:focus-visible {
+    box-shadow: none;
+  }
+
+  &[data-size='lg'] {
+    height: var(--tap-lg);
+    padding-inline: 28px;
+    font-size: 17px;
+  }
+
+  &[data-size='sm'] {
+    height: 36px;
+    padding-inline: 16px;
+    font-size: 14px;
+  }
+
+  // White secondary button (gets .hr from its wrapper).
+  &[data-variant='outline'] {
+    background: var(--card);
+    color: var(--ink);
+    border: 1.5px solid var(--line);
+
+    &:hover {
+      background: var(--card);
+    }
+  }
+
+  // Black button: shadcn has no ink variant, so we add a tone.
+  &[data-tone='ink'] {
+    background: var(--ink);
+    color: #fff;
+  }
+}
+
+[data-slot='badge'] {
+  border-radius: var(--r-pill);
+}

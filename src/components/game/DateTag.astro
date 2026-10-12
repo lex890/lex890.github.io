@@ -1,0 +1,17 @@
+---
+/**
+ * DateTag — slanted yellow date range.
+ *   <DateTag>Apr 2026 – Jul 2026</DateTag>
+ */
+import { hoverClass, type Hover } from '@/lib/hover';
+import s from './DateTag.module.scss';
+
+interface Props {
+  hover?: Hover;
+  class?: string;
+}
+
+const { hover = 'fill', class: className } = Astro.props;
+---
+
+<span class:list={[s.tag, hoverClass(hover), className]}><slot /></span>

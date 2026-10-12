@@ -1,0 +1,59 @@
+// InfoTile — small fact card in three variants (§7.5)
+//   yellow: cut top-right corner (26px) · white: holo ring · black: lime label
+@use 'mixins' as *;
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 22px 24px;
+  border-radius: var(--r-card-sm);
+}
+
+.label {
+  composes: t-label from global;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+.text {
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.yellow {
+  background: var(--yellow);
+  color: var(--ink);
+  @include cut-corner(26px, (tr));
+
+  .label {
+    color: var(--ink);
+  }
+}
+
+.white {
+  background: var(--card);
+  color: var(--ink);
+
+  .text {
+    color: var(--ink-2);
+  }
+}
+
+.black {
+  background: var(--ink);
+  color: #fff;
+
+  .label {
+    color: var(--lime);
+  }
+
+  .text {
+    color: var(--on-ink-muted);
+  }
+}

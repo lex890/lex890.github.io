@@ -1,0 +1,32 @@
+---
+/**
+ * SectionHeader — numbered section title.
+ *   <SectionHeader num="02" label="Player profile" title="About" id="about-title">
+ *     <a slot="action" href="/projects">All projects</a>
+ *   </SectionHeader>
+ * `id` goes on the heading (use it for the section's aria-labelledby).
+ */
+import s from './SectionHeader.module.scss';
+
+interface Props {
+  num: string;
+  label: string;
+  title: string;
+  id?: string;
+  /** Heading level, default h2. */
+  level?: 2 | 3;
+  class?: string;
+}
+
+const { num, label, title, id, level = 2, class: className } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3';
+---
+
+<div class:list={[s.header, className]}>
+  <span class:list={['t-numeral', s.num]} aria-hidden="true">{num}</span>
+  <div class={s.titles}>
+    <p class="t-label">{label}</p>
+    <Heading id={id} class="t-h2">{title}</Heading>
+  </div>
+  <div class={s.action}><slot name="action" /></div>
+</div>

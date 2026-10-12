@@ -1,0 +1,13 @@
+// TechTag — transparent pill with a 1.5px ink border, 13px/500 (§7.5)
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 11px;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--r-pill);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+}

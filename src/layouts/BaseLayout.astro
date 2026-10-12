@@ -1,31 +1,31 @@
 ---
 /**
- * BaseLayout — <head>, font, global styles, header and footer.
- * Full SEO tags (Open Graph, JSON-LD, sitemap) arrive in Phase 6.
+ * BaseLayout — <head> (SEO tags via <Seo>), font, global styles, header and
+ * footer. Pages can add extra <head> content (e.g. JSON-LD) with slot="head".
  */
 import '@fontsource-variable/outfit';
 import '@/styles/global.css'; // Tailwind + shadcn (must load first)
 import '@/styles/global.scss'; // our tokens, type, effects
+import Seo from '@/components/layout/Seo.astro';
 import Header from '@/components/layout/Header.astro';
 import Footer from '@/components/layout/Footer.astro';
 
 interface Props {
   title: string;
-  description?: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'profile' | 'article';
   noindex?: boolean;
 }
 
-const { title, description, noindex = false } = Astro.props;
+const props = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    {description && <meta name="description" content={description} />}
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <Seo {...props} />
+    <slot name="head" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

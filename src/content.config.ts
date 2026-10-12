@@ -223,6 +223,21 @@ const ui = defineCollection({
       nextLabel: z.string(),
       backLabel: z.string(),
     }),
+    cv: z.strictObject({
+      title: z.string(),
+      description: z.string(),
+      printLabel: z.string(),
+      backLabel: z.string(),
+      headings: z.strictObject({
+        summary: z.string(),
+        experience: z.string(),
+        projects: z.string(),
+        skills: z.string(),
+        education: z.string(),
+        certifications: z.string(),
+      }),
+    }),
+    notFound: z.strictObject({ title: z.string(), text: z.string(), homeLabel: z.string() }),
     footer: z.strictObject({ note: z.string() }),
   }),
 });

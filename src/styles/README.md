@@ -2,8 +2,8 @@
 
 Light-only "game UI" look: chunky rounded cards, black number pills, outlined
 section numerals, slanted frames and a holographic gradient on hover. There is
-no dark mode. The full spec is in `PORTFOLIO_PLAN.md` §7. Open `/styleguide`
-in dev to see every token and component live.
+no dark mode. The full spec is in `PORTFOLIO_PLAN.md` §7. Every component is in use on
+the home page, so that's the place to see them live.
 
 ## Two stylesheets, one set of tokens
 
@@ -33,7 +33,7 @@ Rules:
 | `_typography.scss` | Element defaults (in `@layer base`) and the `.t-*` type classes |
 | `_effects.scss` | `.hf`, `.hf-dark`, `.hr`, `.lift`, `.press`, the `holo-shift` keyframes, reduced-motion overrides |
 | `_shadcn.scss` | Shape/size overrides for shadcn components, targeted by their `data-slot` attribute |
-| `_print.scss` | `@media print` rules for `/cv` (Phase 6) |
+| `_print.scss` | `@media print` rules for `/cv`: A4 page, hides `.no-print` (nav, buttons), no page breaks inside entries. Loaded by `PrintLayout` only |
 
 ## Writing a component style
 

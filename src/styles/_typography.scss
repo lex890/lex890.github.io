@@ -97,12 +97,18 @@
   font-variant-numeric: tabular-nums;
 }
 
-// Outlined section numeral: transparent fill with an ink stroke.
+// Outlined section numeral: an ink stroke around a fill that matches the page.
+// Outfit's variable glyphs are built from overlapping shapes, so a plain
+// transparent fill shows their inner seams. Painting the stroke first and the
+// fill on top hides the seams; the stroke is doubled because the fill covers
+// its inner half (4px → 2px visible). Set --numeral-fill on non-ground
+// backgrounds.
 .t-numeral {
   font-size: 96px;
   font-weight: 800;
   line-height: 0.8;
   letter-spacing: -0.04em;
-  color: transparent;
-  -webkit-text-stroke: 2px var(--ink);
+  color: var(--numeral-fill, var(--ground));
+  -webkit-text-stroke: 4px var(--ink);
+  paint-order: stroke fill;
 }

@@ -1,0 +1,31 @@
+---
+/**
+ * PrintLayout — minimal layout for /cv: same tokens and font as the site, no
+ * header/footer or game decorations, plus the print rules in _print.scss.
+ */
+import '@fontsource-variable/outfit';
+import '@/styles/global.css'; // Tailwind + shadcn (for the print button)
+import '@/styles/global.scss';
+import '@/styles/_print.scss';
+import Seo from '@/components/layout/Seo.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="print-layout">
+  <head>
+    <Seo {...props} type="profile" />
+  </head>
+  <body>
+    <a class="skip-link no-print" href="#main">Skip to content</a>
+    <main id="main">
+      <slot />
+    </main>
+  </body>
+</html>

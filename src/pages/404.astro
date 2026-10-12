@@ -1,0 +1,22 @@
+---
+/**
+ * 404 — big outlined numeral, one line, "Back home".
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ActionButton from '@/components/game/ActionButton';
+import { getSite, getUi } from '@/lib/content';
+import s from '@/styles/pages/not-found.module.scss';
+
+const [site, ui] = await Promise.all([getSite(), getUi()]);
+const copy = ui.notFound;
+---
+
+<BaseLayout title={`${copy.title} — ${site.name}`} description={copy.text} noindex>
+  <section class:list={['wrap', s.page]} aria-labelledby="nf-title">
+    <p class:list={['t-numeral', s.num]} aria-hidden="true">404</p>
+    <h1 id="nf-title" class={s.title}>
+      <span class="sr-only">{copy.title}: </span>{copy.text}
+    </h1>
+    <ActionButton label={copy.homeLabel} href="/" icon="arrow-right" size="lg" />
+  </section>
+</BaseLayout>

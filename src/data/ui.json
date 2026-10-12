@@ -193,6 +193,25 @@
     "nextLabel": "Next project",
     "backLabel": "All projects"
   },
+  "cv": {
+    "title": "CV",
+    "description": "CV of John Lexter, Software Developer: experience, projects, skills, education and certifications.",
+    "printLabel": "Print / Save as PDF",
+    "backLabel": "Back to site",
+    "headings": {
+      "summary": "Summary",
+      "experience": "Experience",
+      "projects": "Projects",
+      "skills": "Skills",
+      "education": "Education",
+      "certifications": "Certifications"
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "This level doesn't exist.",
+    "homeLabel": "Back home"
+  },
   "footer": {
     "note": "Built with Astro"
   }

@@ -30,9 +30,9 @@ const categories = [...new Set(projects.map((p) => p.category))];
 
     <ul id="project-grid" class={s.grid}>
       {
-        projects.map((project) => (
+        projects.map((project, i) => (
           <li data-category={project.category}>
-            <ProjectCard project={project} selectLabel={ui.projects.selectLabel} level={2} />
+            <ProjectCard project={project} selectLabel={ui.projects.selectLabel} level={2} eager={i === 0} />
           </li>
         ))
       }

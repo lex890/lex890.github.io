@@ -1,0 +1,264 @@
+// /cv — printable CV. Plain: Outfit, ink on white, lime only as thin accents.
+// On screen it's a white A4-ish sheet; in print the sheet becomes the page.
+@use 'mixins' as *;
+
+// ---- Toolbar (screen only; .no-print) ----------------------------------------
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--gutter);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--tap);
+  padding: 0 18px;
+  border-radius: var(--r-pill);
+  background: var(--card);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+// ---- Sheet --------------------------------------------------------------------
+
+.sheet {
+  width: calc(100% - 2 * var(--gutter));
+  max-width: 812px; // 860 minus gutters
+  margin: 0 auto var(--space-8);
+  padding: clamp(24px, 6vw, 56px);
+  border-radius: var(--r-card-sm);
+  background: #fff;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.5;
+
+  @media print {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    font-size: 9.6pt;
+    line-height: 1.4;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: var(--lime);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+  }
+}
+
+.head {
+  padding-bottom: 14px;
+  border-bottom: 3px solid var(--lime);
+
+  @media print {
+    padding-bottom: 8px;
+    border-bottom-width: 2pt;
+  }
+}
+
+.name {
+  font-size: clamp(32px, 5vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+
+  @media print {
+    font-size: 24pt;
+  }
+}
+
+.role {
+  margin-top: 4px;
+  font-size: 1.25em;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 0;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ink-2);
+
+  li:not(:last-child)::after {
+    content: '·';
+    margin-inline: 8px;
+    color: var(--muted);
+  }
+}
+
+// ---- Sections -------------------------------------------------------------
+
+.section {
+  margin-top: 22px;
+
+  @media print {
+    margin-top: 11px;
+  }
+}
+
+// Heading with a thin lime rule.
+.h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 0.82em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  &::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--lime);
+  }
+
+  @media print {
+    margin-bottom: 5px;
+  }
+}
+
+.text {
+  color: var(--ink-2);
+}
+
+.entry {
+  & + & {
+    margin-top: 14px;
+
+    @media print {
+      margin-top: 7px;
+    }
+  }
+}
+
+.entryHead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0 16px;
+}
+
+.h3 {
+  font-size: 1.08em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.org {
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.date {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.meta {
+  color: var(--muted);
+}
+
+.bullets {
+  list-style: disc; // Tailwind's preflight removes list markers
+  margin: 4px 0 0;
+  padding-left: 1.1em;
+  color: var(--ink-2);
+
+  li + li {
+    margin-top: 2px;
+  }
+
+  li::marker {
+    color: var(--ink);
+  }
+}
+
+.tech {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.92em;
+}
+
+// ---- Skills -----------------------------------------------------------------
+
+.skills {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+
+  > div {
+    display: grid;
+    grid-template-columns: 9.5em minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--ink-2);
+  }
+
+  @include bp-down(sm) {
+    > div {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+}
+
+// ---- Education + certifications side by side ---------------------------------
+
+.columns {
+  display: grid;
+  gap: 0 32px;
+
+  @include bp(md) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media print {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.certs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.certTitle {
+  font-weight: 600;
+}

@@ -20,6 +20,7 @@ import {
   getStats,
   getUi,
 } from '@/lib/content';
+import { isPlaceholderUrl } from '@/lib/site';
 
 const [site, ui, stats, experience, projects, skills, education, certifications] = await Promise.all([
   getSite(),
@@ -31,9 +32,26 @@ const [site, ui, stats, experience, projects, skills, education, certifications]
   getEducation(),
   getCertifications(),
 ]);
+
+// JSON-LD Person schema (search engines' knowledge panel).
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  jobTitle: site.role,
+  description: site.summary,
+  url: Astro.site?.href,
+  email: `mailto:${site.email}`,
+  image: new URL(site.avatar ?? site.ogImage, Astro.site).href,
+  address: { '@type': 'PostalAddress', addressLocality: site.location },
+  alumniOf: education.map((e) => ({ '@type': 'CollegeOrUniversity', name: e.school })),
+  knowsAbout: skills.flatMap((g) => g.items),
+  sameAs: site.socials.filter((x) => x.icon !== 'mail' && !isPlaceholderUrl(x.url)).map((x) => x.url),
+};
 ---
 
-<BaseLayout title={`${site.name} — ${site.role}`} description={site.tagline}>
+<BaseLayout title={`${site.name} — ${site.role}`} description={site.tagline} type="profile">
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(personLd)} />
   <Hero site={site} ui={ui} stats={stats} />
   <About site={site} ui={ui} stats={stats} education={education} />
   <Experience ui={ui} experience={experience} />

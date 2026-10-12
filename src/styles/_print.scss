@@ -1,0 +1,54 @@
+// ==========================================================================
+// _print.scss — print rules for /cv (loaded by PrintLayout only)
+// --------------------------------------------------------------------------
+// Use in markup:
+//   .no-print     hidden on paper (toolbar, buttons, skip link)
+//   .print-keep   never split across pages (one CV entry, the skills list)
+//
+// Page-specific print sizing (font size, sheet padding) lives in
+// src/styles/pages/cv.module.scss under @media print.
+// ==========================================================================
+
+@page {
+  size: A4;
+  margin: 14mm 15mm;
+}
+
+@media print {
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-keep {
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  p,
+  li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  // Links read as plain text on paper; the visible text is already the URL.
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+
+  // Keep the thin lime accents when "Background graphics" is off.
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

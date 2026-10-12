@@ -2,11 +2,14 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 
 // https://docs.astro.build/en/reference/configuration-reference/
 export default defineConfig({
+  // Production URL: used for canonical links, Open Graph image URLs, the sitemap and robots.txt.
+  site: 'https://leks-portfolio.dev',
   output: 'static',
-  integrations: [react()],
+  integrations: [react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
     css: {

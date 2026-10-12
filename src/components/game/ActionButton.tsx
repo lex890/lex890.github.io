@@ -1,10 +1,11 @@
-import { ArrowRight, Download, Mail, type LucideIcon } from 'lucide-react';
+import { ArrowRight, Download, Mail, Printer, type LucideIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const icons = {
   'arrow-right': ArrowRight,
   download: Download,
   mail: Mail,
+  printer: Printer,
 } satisfies Record<string, LucideIcon>;
 
 type Tone = 'primary' | 'secondary' | 'ink';

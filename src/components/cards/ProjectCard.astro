@@ -15,15 +15,17 @@ interface Props {
   selectLabel: string;
   /** Heading level for the title (h3 on the home page). */
   level?: 2 | 3;
+  /** Load the image immediately (first card above the fold). */
+  eager?: boolean;
 }
 
-const { project, selectLabel, level = 3 } = Astro.props;
+const { project, selectLabel, level = 3, eager = false } = Astro.props;
 const Heading = `h${level}` as 'h2' | 'h3';
 const href = `/projects/${project.slug}`;
 ---
 
 <article class:list={[s.card, 'hr', 'lift']}>
-  <SlantFrame src={project.image} alt={project.imageAlt} tag={project.category} />
+  <SlantFrame src={project.image} alt={project.imageAlt} tag={project.category} eager={eager} />
 
   <div class={s.body}>
     <p class={s.client}>{project.client}</p>

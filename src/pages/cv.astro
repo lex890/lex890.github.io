@@ -1,0 +1,164 @@
+---
+/**
+ * /cv — the printable CV, rendered from the same data files as the site.
+ * Plain layout: Outfit, ink on white, lime only as thin accents. No game
+ * decorations. "Print / Save as PDF" uses the browser's print dialog;
+ * _print.scss sets A4 margins and keeps entries from splitting across pages.
+ */
+import { ArrowLeft } from 'lucide-react';
+import PrintLayout from '@/layouts/PrintLayout.astro';
+import PrintButton from '@/components/layout/PrintButton';
+import {
+  getCertifications,
+  getEducation,
+  getExperience,
+  getProjects,
+  getSite,
+  getSkills,
+  getUi,
+} from '@/lib/content';
+import { formatMonth, formatRange } from '@/lib/format';
+import { isPlaceholderUrl } from '@/lib/site';
+import s from '@/styles/pages/cv.module.scss';
+
+const [site, ui, experience, projects, skills, education, certifications] = await Promise.all([
+  getSite(),
+  getUi(),
+  getExperience(),
+  getProjects(),
+  getSkills(),
+  getEducation(),
+  getCertifications(),
+]);
+const copy = ui.cv;
+const h = copy.headings;
+
+// Contact line: email + real social profiles, shown as readable URLs for print.
+const socials = site.socials
+  .filter((x) => x.icon !== 'mail' && !isPlaceholderUrl(x.url))
+  .map((x) => ({ href: x.url, text: x.url.replace(/^https?:\/\/(www\.)?/, '') }));
+const siteUrl = Astro.site ? { href: Astro.site.href, text: Astro.site.host } : null;
+---
+
+<PrintLayout title={`${copy.title} — ${site.name}`} description={copy.description}>
+  <div class:list={[s.toolbar, 'no-print']}>
+    <a href="/" class:list={[s.back, 'hr']}>
+      <ArrowLeft size={16} strokeWidth={2.5} aria-hidden="true" />
+      {copy.backLabel}
+    </a>
+    <PrintButton client:idle label={copy.printLabel} />
+  </div>
+
+  <article class={s.sheet}>
+    <header class={s.head}>
+      <h1 class={s.name}>{site.name}</h1>
+      <p class={s.role}>{site.role}</p>
+      <ul class={s.contact}>
+        <li>{site.location}</li>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        {site.phone && <li>{site.phone}</li>}
+        {socials.map((x) => <li><a href={x.href}>{x.text}</a></li>)}
+        {siteUrl && <li><a href={siteUrl.href}>{siteUrl.text}</a></li>}
+      </ul>
+    </header>
+
+    <section class={s.section} aria-labelledby="cv-summary">
+      <h2 id="cv-summary" class={s.h2}>{h.summary}</h2>
+      <p class={s.text}>{site.summary}</p>
+    </section>
+
+    <section class={s.section} aria-labelledby="cv-experience">
+      <h2 id="cv-experience" class={s.h2}>{h.experience}</h2>
+      {
+        experience.map((job) => (
+          <div class:list={[s.entry, "print-keep"]}>
+            <div class={s.entryHead}>
+              <h3 class={s.h3}>
+                {job.role}, <span class={s.org}>{job.company}</span>
+              </h3>
+              <p class={s.date}>{formatRange(job.start, job.end)}</p>
+            </div>
+            <p class={s.meta}>{job.location}</p>
+            <ul class={s.bullets}>
+              {job.highlights.map((x) => <li>{x}</li>)}
+            </ul>
+            <p class={s.tech}>{job.tech.join(' · ')}</p>
+          </div>
+        ))
+      }
+    </section>
+
+    <section class={s.section} aria-labelledby="cv-projects">
+      <h2 id="cv-projects" class={s.h2}>{h.projects}</h2>
+      {
+        projects.map((p) => (
+          <div class:list={[s.entry, "print-keep"]}>
+            <div class={s.entryHead}>
+              <h3 class={s.h3}>{p.title}</h3>
+              {p.date && <p class={s.date}>{formatMonth(p.date)}</p>}
+            </div>
+            <p class={s.meta}>
+              {p.client} · {p.role}
+            </p>
+            <ul class={s.bullets}>
+              {p.highlights.map((x) => <li>{x}</li>)}
+            </ul>
+            <p class={s.tech}>{p.tech.join(' · ')}</p>
+          </div>
+        ))
+      }
+    </section>
+
+    <section class={s.section} aria-labelledby="cv-skills">
+      <h2 id="cv-skills" class={s.h2}>{h.skills}</h2>
+      <dl class:list={[s.skills, "print-keep"]}>
+        {
+          skills.map((g) => (
+            <div>
+              <dt>{g.label}</dt>
+              <dd>{g.items.join(', ')}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <div class={s.columns}>
+      <section class={s.section} aria-labelledby="cv-education">
+        <h2 id="cv-education" class={s.h2}>{h.education}</h2>
+        {
+          education.map((ed) => (
+            <div class:list={[s.entry, "print-keep"]}>
+              <h3 class={s.h3}>{ed.degree}</h3>
+              <p class={s.meta}>
+                {ed.school} · {formatRange(ed.start, ed.end)}
+              </p>
+              <p class={s.meta}>{ed.location}</p>
+              {ed.notes.length > 0 && (
+                <ul class={s.bullets}>
+                  {ed.notes.map((x) => <li>{x}</li>)}
+                </ul>
+              )}
+            </div>
+          ))
+        }
+      </section>
+
+      <section class={s.section} aria-labelledby="cv-certs">
+        <h2 id="cv-certs" class={s.h2}>{h.certifications}</h2>
+        <ul class={s.certs}>
+          {
+            certifications.map((c) => (
+              <li>
+                <span class={s.certTitle}>{c.url ? <a href={c.url}>{c.title}</a> : c.title}</span>
+                <span class={s.meta}>
+                  {c.issuer} · {formatMonth(c.date)}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </article>
+</PrintLayout>

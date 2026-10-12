@@ -1,0 +1,21 @@
+---
+// TEMPORARY (Phase 1): verifies Astro + React + Tailwind + shadcn/ui are wired up.
+// Replaced by the real home page in Phase 4.
+import '@/styles/global.css';
+import { Button } from '@/components/ui/button';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Scaffold check</title>
+  </head>
+  <body>
+    <main style="display:grid;place-items:center;min-height:100vh;gap:1rem;align-content:center">
+      <h1>Phase 1 scaffold</h1>
+      <Button>shadcn Button</Button>
+      <Button variant="outline">Outline variant</Button>
+    </main>
+  </body>
+</html>

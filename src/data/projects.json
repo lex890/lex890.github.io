@@ -13,11 +13,11 @@
     ],
     "tech": ["Python", "Google Cloud", "BigQuery", "Cloud Run", "Cloud Scheduler", "Looker Studio", "Google Sheets API", "Gemini"],
     "category": "Data",
-    "image": "/images/projects/placeholder-project.svg",
-    "imageAlt": "Placeholder image for the analytics platform",
+    "image": "/images/projects/lesaka-reporting-analytics.svg",
+    "imageAlt": "Illustration of spreadsheets flowing through a data warehouse into an analytics dashboard",
     "links": { "live": null, "repo": null, "caseStudy": null },
     "featured": true,
-    "date": null
+    "date": "2026-09"
   },
   {
     "slug": "femys-resort-booking-platform",
@@ -33,11 +33,11 @@
     ],
     "tech": ["React", "Node.js", "Express", "PostgreSQL", "Three.js"],
     "category": "Fullstack",
-    "image": "/images/projects/placeholder-project.svg",
-    "imageAlt": "Placeholder image for the resort booking platform",
+    "image": "/images/projects/femys-resort-booking-platform.svg",
+    "imageAlt": "Illustration of a beach resort scene beside a booking calendar",
     "links": { "live": null, "repo": null, "caseStudy": null },
     "featured": true,
-    "date": null
+    "date": "2025-11"
   },
   {
     "slug": "crypto-risk-assessment",
@@ -53,10 +53,10 @@
     ],
     "tech": ["Python", "PySimpleGUI", "TensorFlow", "scikit-learn", "CoinGecko API", "CoinMarketCap API"],
     "category": "Machine Learning",
-    "image": "/images/projects/placeholder-project.svg",
-    "imageAlt": "Placeholder image for the crypto risk assessment system",
-    "links": { "live": null, "repo": null, "caseStudy": null },
+    "image": "/images/projects/crypto-risk-assessment.webp",
+    "imageAlt": "Crypto risk assessment tool showing a coin list and an overall assessment score of 100, Low Risk",
+    "links": { "live": null, "repo": "https://github.com/lex890/crypto-risk-assessment", "caseStudy": null },
     "featured": true,
-    "date": null
+    "date": "2025-08"
   }
 ]

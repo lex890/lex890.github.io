@@ -5,14 +5,14 @@
   "summary": "Results-driven full-stack software engineer skilled in building secure, production-ready systems using TypeScript, React, Node.js, PostgreSQL, Python, AWS, and Google Cloud. Delivered an end-to-end HRIS with role-based access control, cloud ETL pipelines feeding Power BI dashboards, a BigQuery-based analytics platform, and a PERN-stack booking system, improving data reliability and reducing manual workload across internships and projects.",
   "location": "San Pedro, Laguna, Philippines",
   "email": "hiterozalex@gmail.com",
-  "phone": null,
+  "phone": "+63 9615904477",
   "availability": "Open to full-time software developer roles",
-  "avatar": "/images/profile/placeholder-avatar.svg",
+  "avatar": "/images/profile/leks.png",
   "ogImage": "/images/og/placeholder-og.png",
   "cvPdf": "/cv/john-lexter-cv.pdf",
   "socials": [
-    { "id": "linkedin", "label": "LinkedIn", "url": "https://www.linkedin.com/in/REPLACE_ME", "icon": "linkedin" },
-    { "id": "github", "label": "GitHub", "url": "https://github.com/REPLACE_ME", "icon": "github" },
+    { "id": "linkedin", "label": "LinkedIn", "url": "https://www.linkedin.com/in/lexterhiteroza/", "icon": "linkedin" },
+    { "id": "github", "label": "GitHub", "url": "https://github.com/lex890", "icon": "github" },
     { "id": "email", "label": "Email", "url": "mailto:hiterozalex@gmail.com", "icon": "mail" }
   ],
   "nav": [

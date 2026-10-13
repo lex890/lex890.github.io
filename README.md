@@ -150,11 +150,11 @@ Edit `site` in `astro.config.mjs`, rebuild, redeploy.
 
 ## Before launch
 
-- [ ] Real LinkedIn profile URL and GitHub username in `site.json` (replace `REPLACE_ME`)
-- [ ] Profile photo (cut-out PNG/WebP)
-- [ ] Project screenshots, plus repo / live demo links where public
-- [ ] Final CV PDF at `public/cv/john-lexter-cv.pdf`
+- [x] Real LinkedIn profile URL and GitHub username in `site.json` (replace `REPLACE_ME`)
+- [x] Profile photo (cut-out PNG/WebP)
+- [x] Project screenshots, plus repo / live demo links where public
+- [x] Final CV PDF at `public/cv/john-lexter-cv.pdf`
 - [ ] Social preview image (optional; the placeholder is on-brand)
-- [ ] Project dates, if you want them shown (`date` in `projects.json`)
-- [ ] Decide whether to show a phone number (`phone` in `site.json`; currently `null`)
+- [x] Project dates, if you want them shown (`date` in `projects.json`)
+- [x] Decide whether to show a phone number (`phone` in `site.json`)
 - [ ] Point `leks-portfolio.dev` at the host

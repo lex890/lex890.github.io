@@ -1,7 +1,7 @@
 # leks-portfolio
 
 Personal portfolio and printable CV for **John Lexter, Software Developer**.
-Live at **https://leks-portfolio.dev**.
+Live at **https://lex890.github.io**.
 
 Built with Astro 7 (static output), React islands, shadcn/ui and SCSS. All
 text lives in JSON files, so changing content never means touching components.
@@ -113,6 +113,22 @@ The build is a fully static `dist/` folder, so any static host works. The
 domain is set once in `astro.config.mjs` (`site`); canonical links, Open
 Graph URLs, the sitemap and `robots.txt` all follow it.
 
+### GitHub Pages (current)
+
+The site is live at https://lex890.github.io. The repo is named
+`lex890.github.io`, so Pages serves it at the root and the site's root-relative
+paths (`/images/...`, `/projects`) work as-is.
+
+`.github/workflows/deploy.yml` builds and publishes `dist/` on every push to
+`main` (or run it by hand from the Actions tab). Pages is set to
+**Settings → Pages → Source: GitHub Actions**. GitHub Pages serves
+`dist/404.html` for unknown URLs, but ignores `public/_headers`.
+
+To use a custom domain later: buy it, set `site` in `astro.config.mjs`, add it
+under **Settings → Pages → Custom domain**, and add the DNS records GitHub shows.
+
+### Other hosts
+
 `public/_headers` (long-term caching for hashed assets plus basic security
 headers) is read by both hosts below. Both serve `dist/404.html` for unknown
 URLs automatically.
@@ -157,4 +173,5 @@ Edit `site` in `astro.config.mjs`, rebuild, redeploy.
 - [ ] Social preview image (optional; the placeholder is on-brand)
 - [x] Project dates, if you want them shown (`date` in `projects.json`)
 - [x] Decide whether to show a phone number (`phone` in `site.json`)
-- [ ] Point `leks-portfolio.dev` at the host
+- [x] Deploy (GitHub Pages, https://lex890.github.io)
+- [ ] Custom domain (optional; `leks-portfolio.dev` is not registered yet)
